@@ -277,6 +277,57 @@
     });
   }
 
+  // ---- Contact form (Formspree AJAX) ----
+  var contactForm = document.getElementById('contactForm');
+  var formStatus = document.getElementById('formStatus');
+
+  if (contactForm && formStatus) {
+    var submitBtn = contactForm.querySelector('[type="submit"]');
+
+    function setStatus(message, type) {
+      formStatus.textContent = message;
+      formStatus.className = 'form-status is-visible is-' + type;
+    }
+
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Guard against an unconfigured endpoint
+      if (contactForm.action.indexOf('YOUR_FORM_ID') !== -1) {
+        setStatus('Form not connected yet — add your Formspree form ID to make it live.', 'error');
+        return;
+      }
+
+      if (submitBtn) submitBtn.classList.add('is-loading');
+      setStatus('Sending…', 'success');
+
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (res) {
+          if (res.ok) {
+            contactForm.reset();
+            setStatus('Thanks — your brief is on its way. I reply within 24 hours.', 'success');
+          } else {
+            return res.json().then(function (data) {
+              var msg = data && data.errors
+                ? data.errors.map(function (err) { return err.message; }).join(', ')
+                : 'Something went wrong. Please email me directly instead.';
+              setStatus(msg, 'error');
+            });
+          }
+        })
+        .catch(function () {
+          setStatus('Network error. Please email me directly instead.', 'error');
+        })
+        .finally(function () {
+          if (submitBtn) submitBtn.classList.remove('is-loading');
+        });
+    });
+  }
+
   // ---- Nav background intensity on scroll ----
   var nav = document.querySelector('.nav');
   if (nav) {

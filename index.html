@@ -922,6 +922,59 @@
         <li><a href="#" data-testid="social-tiktok">TikTok</a></li>
         <li><a href="#" data-testid="social-linkedin">LinkedIn</a></li>
       </ul>
+
+      <form class="contact-form reveal" id="contactForm" method="POST"
+        action="https://formspree.io/f/YOUR_FORM_ID" data-testid="contact-form">
+        <h3 class="contact-form__title">Or send a brief right here</h3>
+        <div class="contact-form__row">
+          <div class="form-group">
+            <label class="form-label" for="cf-name">Your name</label>
+            <input class="form-input" type="text" id="cf-name" name="name" autocomplete="name"
+              required data-testid="contact-name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-email">Email address</label>
+            <input class="form-input" type="email" id="cf-email" name="email" autocomplete="email"
+              required data-testid="contact-email" />
+          </div>
+        </div>
+        <div class="contact-form__row">
+          <div class="form-group">
+            <label class="form-label" for="cf-subject">Subject</label>
+            <select class="form-input" id="cf-subject" name="subject" required data-testid="contact-subject">
+              <option value="">Select a subject…</option>
+              <option value="Request a quote">Request a quote</option>
+              <option value="New project inquiry">New project inquiry</option>
+              <option value="Free consultation">Free consultation</option>
+              <option value="General question">General question</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-budget">Budget range <span>(optional)</span></label>
+            <select class="form-input" id="cf-budget" name="budget" data-testid="contact-budget">
+              <option value="">Select budget range…</option>
+              <option value="&lt; $500">Less than $500</option>
+              <option value="$500–$1,000">$500 – $1,000</option>
+              <option value="$1,000–$3,000">$1,000 – $3,000</option>
+              <option value="&gt; $3,000">More than $3,000</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-message">Project details</label>
+          <textarea class="form-input form-textarea" id="cf-message" name="message" rows="6" required
+            placeholder="Tell me about your brand, goals, platforms (TikTok, Meta…) and timeline."
+            data-testid="contact-message"></textarea>
+        </div>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite" data-testid="contact-status"></p>
+        <button class="btn btn--primary btn--xl contact-form__submit" type="submit" data-testid="contact-submit">
+          <span>Send message</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </button>
+      </form>
     </div>
   </section>
 
