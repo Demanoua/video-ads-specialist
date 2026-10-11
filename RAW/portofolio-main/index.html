@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Scraping Specialist | Web Scraping & Data Analysis Expert</title>
+
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Data Scraping Specialist | Web Scraping & Data Analysis Expert">
+    <meta name="description" content="Expert in web scraping, data analysis, and machine learning. I build scalable solutions that transform unstructured data into valuable business intelligence.">
+    <meta name="keywords" content="data scraping, web scraping, data analysis, machine learning, python, selenium, pandas, automation">
+    <meta name="author" content="DataScraper">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://demanoua.github.io/portofolio/">
+    <meta property="og:title" content="Data Scraping Specialist | Web Scraping & Data Analysis Expert">
+    <meta property="og:description" content="Expert in web scraping, data analysis, and machine learning. I build scalable solutions that transform unstructured data into valuable business intelligence.">
+    <meta property="og:image"  content="https://demanoua.github.io/portofolio/assets/images/opengraph.svg"/>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="DataScraper - Data Scraping Specialist">
+    <meta property="og:site_name" content="DataScraper">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://demanoua.github.io/portofolio/">
+    <meta property="twitter:title" content="Data Scraping Specialist | Web Scraping & Data Analysis Expert">
+    <meta property="twitter:description" content="Expert in web scraping, data analysis, and machine learning. I build scalable solutions that transform unstructured data into valuable business intelligence.">
+    <meta property="twitter:image" content="https://demanoua.github.io/portofolio/assets/images/opengraph.svg">
+    <meta property="twitter:image:alt" content="DataScraper - Data Scraping Specialist">
+    
+    <!-- ========== LINKEDIN ========== -->
+    <!-- LinkedIn utilise Open Graph principalement, mais ces balises sont recommandées -->
+    <meta property="linkedin:author" content="https://www.linkedin.com/">
+    <meta property="linkedin:company" content="DataScraper">
+    
+    <!-- ========== PINTEREST ========== -->
+    <!-- Pinterest utilise Open Graph mais a des spécificités -->
+    <meta name="pinterest:description" content="Description optimisée pour Pinterest">
+    <meta name="pinterest:media" content="https://demanoua.github.io/portofolio/">
+    <meta name="pinterest:id" content="DataScraper">
+    
+    <!-- WhatsApp -->
+    <meta property="og:image:secure_url" content="https://demanoua.github.io/portofolio/assets/images/opengraph.svg">
+    
+    <!-- Telegram -->
+    <meta property="telegram:channel" content="@datascraper">
+    
+    <!-- Slack -->
+    <meta name="slack-app-id" content="datascraper">
+
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="Data Scraping Specialist | Web Scraping & Data Analysis Expert">
+    <meta itemprop="description" content="Expert in web scraping, data analysis, and machine learning. I build scalable solutions that transform unstructured data into valuable business intelligence.">
+    <meta itemprop="image" content="https://demanoua.github.io/portofolio/assets/images/opengraph.svg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://demanoua.github.io/portofolio/">
+
+    <!-- Favicons -->
+    <!-- SVG Favicon (Modern Browsers) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM5MzMzZWE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2VjNDg5OTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iMjQiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDx0ZXh0IHg9IjY0IiB5PSI4OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RDwvdGV4dD4KPC9zdmc+">
+    
+    <!-- PNG Favicons for legacy browsers -->
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM5MzMzZWE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2VjNDg5OTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iMjQiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDx0ZXh0IHg9IjY0IiB5PSI4OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RDwvdGV4dD4KPC9zdmc+">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM5MzMzZWE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2VjNDg5OTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iMjQiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDx0ZXh0IHg9IjY0IiB5PSI4OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjcyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RDwvdGV4dD4KPC9zdmc+">
+
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#6b21a8">
+    <meta name="msapplication-TileColor" content="#6b21a8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #6b21a8 50%, #1e293b 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #c084fc;
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 120px 0 80px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 50px;
+            font-size: 14px;
+            color: #d8b4fe;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 56px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #d1d5db;
+            max-width: 700px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: #9333ea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7e22ce;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Skills Grid */
+        .section {
+            padding: 64px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .skill-icon {
+            width: 24px;
+            height: 24px;
+            color: #c084fc;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #374151;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #9333ea, #ec4899);
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(236, 72, 153, 0.3));
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: scale(1.05);
+        }
+
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            color: #c084fc;
+            margin-bottom: 16px;
+        }
+
+        .service-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .service-desc {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(to right, #9333ea, #ec4899);
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-white {
+            background: white;
+            color: #9333ea;
+        }
+
+        .btn-white:hover {
+            background: #f3f4f6;
+            transform: scale(1.05);
+        }
+
+        /* Projects Page */
+        .projects-grid {
+            display: grid;
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .project-category {
+            color: #c084fc;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .project-title {
+            font-size: 28px;
+            margin-top: 8px;
+        }
+
+        .project-desc {
+            color: #d1d5db;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tech-tag {
+            padding: 6px 12px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 50px;
+            font-size: 14px;
+            color: #d8b4fe;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .metric {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .metric-label {
+            color: #9ca3af;
+            font-size: 14px;
+            text-transform: capitalize;
+        }
+
+        .metric-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #0f172a;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 24px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 32px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .highlights {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: #d1d5db;
+        }
+
+        .highlight-icon {
+            color: #c084fc;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        /* Contact Page */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .contact-title {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-item:hover {
+            color: #c084fc;
+        }
+
+        .contact-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            background: rgba(168, 85, 247, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            color: #c084fc;
+        }
+
+        .contact-info-label {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .contact-info-value {
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .why-work {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(236, 72, 153, 0.3));
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .why-list {
+            list-style: none;
+        }
+
+        .why-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+
+        .why-item strong {
+            color: white;
+        }
+
+
+                /* Form Styles */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            color: #f3f4f6;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #9333ea;
+            background: rgba(128, 128, 128, 0.5)
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        select.form-input {
+            cursor: pointer;
+        }
+
+        .form-input::placeholder {
+            color: #6b7280;
+        }
+
+        .form-status {
+            margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .form-status.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+
+        .form-status.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+        /* Filter Container */
+        .filter-container {
+            max-width: 1000px;
+            margin: 0 auto 48px;
+        }
+
+        .filter-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 4px;
+            transition: all 0.3s;
+        }
+
+        .filter-wrapper:focus-within {
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+        }
+
+        .filter-icon {
+            width: 24px;
+            height: 24px;
+            color: #9ca3af;
+            margin-left: 16px;
+            flex-shrink: 0;
+        }
+
+        .filter-input {
+            flex: 1;
+            padding: 16px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .filter-input::placeholder {
+            color: #6b7280;
+        }
+
+        .filter-clear {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 8px;
+            margin-right: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: #fca5a5;
+        }
+
+        .filter-clear:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: scale(1.05);
+        }
+
+        .filter-results {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 8px;
+            color: #d8b4fe;
+            font-size: 14px;
+            display: none;
+        }
+
+        .filter-results.active {
+            display: block;
+        }
+
+        .project-card.hidden {
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 64px 24px;
+            color: #9ca3af;
+        }
+
+        .no-results svg {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            color: #6b7280;
+        }
+
+        .no-results h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #d1d5db;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+
+            .hero {
+                padding: 80px 0 40px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .modal-content {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo" onclick="showPage('home')">DataScraper</div>&ensp;
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" onclick="showPage('home')">Home</a></li>
+                <li><a href="#projects" class="nav-link" onclick="showPage('projects')">Projects</a></li>
+                <li><a href="#contact" class="nav-link" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="badge">Data Scraping Specialist • MCA Graduate</div>
+                <h1>
+                    Turning Raw Data Into<br>
+                    <span class="gradient-text">Actionable Insights</span>
+                </h1>
+                <p>Expert in web scraping, data analysis, and machine learning. I build scalable solutions that transform unstructured data into valuable business intelligence.</p>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="showPage('projects')">
+                        View Projects →
+                    </button>
+                    <button class="btn btn-secondary" onclick="showPage('contact')">
+                        Get In Touch
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Core Competencies</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <svg class="skill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                            <h3 class="skill-name">Python</h3>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 99%"></div>
+                        </div>
+                        <p class="progress-text">99% Proficiency</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <svg class="skill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <h3 class="skill-name">Selenium</h3>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 98%"></div>
+                        </div>
+                        <p class="progress-text">98% Proficiency</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <svg class="skill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            <h3 class="skill-name">BeautifulSoup</h3>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 98%"></div>
+                        </div>
+                        <p class="progress-text">98% Proficiency</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <svg class="skill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            </svg>
+                            <h3 class="skill-name">Pandas</h3>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 98%"></div>
+                        </div>
+                        <p class="progress-text">98% Proficiency</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <svg class="skill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            <h3 class="skill-name">Machine Learning</h3>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%"></div>
+                        </div>
+                        <p class="progress-text">95% Proficiency</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <svg class="skill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                            </svg>
+                            <h3 class="skill-name">Data Visualization</h3>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <p class="progress-text">100% Proficiency</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">What I Offer</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <svg class="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                        </svg>
+                        <h3 class="service-title">Web Scraping & Automation</h3>
+                        <p class="service-desc">Advanced data extraction using Selenium, BeautifulSoup, Playwright, and Puppeteer for scalable solutions.</p>
+                    </div>
+                    <div class="service-card">
+                        <svg class="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <h3 class="service-title">Data Analysis & Cleaning</h3>
+                        <p class="service-desc">Transform raw data into clean, structured datasets using Pandas and NumPy for actionable insights.</p>
+                    </div>
+                    <div class="service-card">
+                        <svg class="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                        <h3 class="service-title">Predictive Modeling</h3>
+                        <p class="service-desc">Build machine learning models to forecast trends and automate decision-making processes.</p>
+                    </div>
+                    <div class="service-card">
+                        <svg class="service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <h3 class="service-title">API Integration</h3>
+                        <p class="service-desc">Design custom data pipelines and integrate third-party APIs for seamless data flow.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section">
+            <div class="container">
+                <div class="cta">
+                    <h2>Ready to Transform Your Data?</h2>
+                    <p>Let's discuss how I can help automate your data collection and unlock valuable insights.</p>
+                    <button class="btn btn-white" onclick="showPage('contact')">
+                        Start a Project
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Projects Page -->
+    <div id="projects" class="page">
+        <section class="section">
+            <div class="container">
+                <h1 style="font-size: 48px; margin-bottom: 16px;">Featured Projects</h1>
+                <p style="color: #d1d5db; font-size: 18px; margin-bottom: 48px;">Real-world solutions delivering measurable results</p>
+                <!-- À ajouter après <h1> et <p> dans la section projects -->
+                <div class="filter-container">
+                    <div class="filter-wrapper">
+                        <svg class="filter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="project-filter" 
+                            class="filter-input" 
+                            placeholder="Filter by technology or project name (e.g., Selenium, Price Tracker, Machine Learning...)"
+                        />
+                        <button class="filter-clear" id="clear-filter" style="display: none;">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="filter-results" id="filter-results"></div>
+                </div>
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div>
+                                <div class="project-category">Web Scraping</div>
+                                <h3 class="project-title">E-commerce Price Monitoring System</h3>
+                            </div>
+                            <button class="btn btn-primary" onclick="showModal(0)">
+                                View Details →
+                            </button>
+                        </div>
+                        <p class="project-desc">Automated price tracking system monitoring 500+ products across multiple e-commerce platforms</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Selenium</span>
+                            <span class="tech-tag">Pandas</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                        </div>
+                        <div class="metrics">
+                            <div class="metric">
+                                <div class="metric-label">Products</div>
+                                <div class="metric-value">500+</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Accuracy</div>
+                                <div class="metric-value">99.9%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Frequency</div>
+                                <div class="metric-value">Hourly</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div>
+                                <div class="project-category">Data Analysis</div>
+                                <h3 class="project-title">Social Media Analytics Pipeline</h3>
+                            </div>
+                            <button class="btn btn-primary" onclick="showModal(1)">
+                                View Details →
+                            </button>
+                        </div>
+                        <p class="project-desc">End-to-end pipeline for collecting and analyzing social media data for brand sentiment analysis</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">API Integration</span>
+                            <span class="tech-tag">Pandas</span>
+                            <span class="tech-tag">Matplotlib</span>
+                        </div>
+                        <div class="metrics">
+                            <div class="metric">
+                                <div class="metric-label">Posts</div>
+                                <div class="metric-value">100K+/day</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Sentiment</div>
+                                <div class="metric-value">92% accuracy</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Automation</div>
+                                <div class="metric-value">Fully automated</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div>
+                                <div class="project-category">Machine Learning</div>
+                                <h3 class="project-title">Real Estate Market Analyzer</h3>
+                            </div>
+                            <button class="btn btn-primary" onclick="showModal(2)">
+                                View Details →
+                            </button>
+                        </div>
+                        <p class="project-desc">Predictive model for real estate price forecasting using historical and current market data</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Scikit-learn</span>
+                            <span class="tech-tag">BeautifulSoup</span>
+                            <span class="tech-tag">Plotly</span>
+                        </div>
+                        <div class="metrics">
+                            <div class="metric">
+                                <div class="metric-label">Listings</div>
+                                <div class="metric-value">50K+</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Accuracy</div>
+                                <div class="metric-value">87%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Features</div>
+                                <div class="metric-value">25+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <section class="section">
+            <div class="container">
+                <h1 style="font-size: 48px; margin-bottom: 16px;">Let's Work Together</h1>
+                <p style="color: #d1d5db; font-size: 18px; margin-bottom: 48px;">Have a project in mind? I'd love to hear about it.</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h2 class="contact-title">Get In Touch</h2>
+                        <div class="contact-items">
+                            <a href="mailto:gnongouhe@gmail.com" class="contact-item">
+                                <div class="contact-icon-wrapper">
+                                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="contact-info-label">Email</div>
+                                    <div class="contact-info-value">gnongouhe@gmail.com</div>
+                                </div>
+                            </a>
+                                <a href="https://www.upwork.com/freelancers/~018a7b3a9c6ef2a289" target="_blank" class="contact-item">
+                                <div class="contact-icon-wrapper">
+                                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="contact-info-label">Upwork</div>
+                                    <div class="contact-info-value">Hire me on Upwork</div>
+                                </div>
+                            </a>
+                            <a href="https://github.com/Demanoua" target="_blank" class="contact-item">
+                                <div class="contact-icon-wrapper">
+                                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="contact-info-label">GitHub</div>
+                                    <div class="contact-info-value">View my repositories</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                      <!-- Contact Page -->
+                    <div id="contact" class="page">
+                        <section class="section">
+                            <div class="container">
+                                <h1 style="font-size: 48px; margin-bottom: 16px;">Let's Work Together</h1>
+                                <p style="color: #d1d5db; font-size: 18px; margin-bottom: 48px;">Have a project in mind? I'd love to hear about it.</p>
+                                
+                                <div class="contact-grid">
+                                    <div class="contact-card">
+                                        <h2 class="contact-title">Get In Touch</h2>
+                                        <div class="contact-items">
+                                            <a href="mailto:your.email@example.com" class="contact-item">
+                                                <div class="contact-icon-wrapper">
+                                                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <div class="contact-info-label">Email</div>
+                                                    <div class="contact-info-value">your.email@example.com</div>
+                                                </div>
+                                            </a>
+                                            <a href="https://linkedin.com" target="_blank" class="contact-item">
+                                                <div class="contact-icon-wrapper">
+                                                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <div class="contact-info-label">LinkedIn</div>
+                                                    <div class="contact-info-value">Connect with me</div>
+                                                </div>
+                                            </a>
+                                            <a href="https://github.com" target="_blank" class="contact-item">
+                                                <div class="contact-icon-wrapper">
+                                                    <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <div class="contact-info-label">GitHub</div>
+                                                    <div class="contact-info-value">View my repositories</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="why-work">
+                                        <h2 class="contact-title">Why Work With Me?</h2>
+                                        <ul class="why-list">
+                                            <li class="why-item">
+                                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
+                                                <span><strong>Fast & Reliable:</strong> On-time delivery, every time</span>
+                                            </li>
+                                            <li class="why-item">
+                                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
+                                                <span><strong>Scalable Solutions:</strong> Built for growth and efficiency</span>
+                                            </li>
+                                            <li class="why-item">
+                                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
+                                                <span><strong>Clear Communication:</strong> Regular updates and transparency</span>
+                                            </li>
+                                            <li class="why-item">
+                                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
+                                                <span><strong>Result-Driven:</strong> Focus on real business value</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Contact Form Section -->
+                                <div style="margin-top: 64px;">
+                                    <h2 class="section-title">Request a Quote or Get in Touch</h2>
+                                    <div class="contact-card" style="max-width: 800px; margin: 0 auto;">
+                                        <form id="contact-form" action="https://formspree.io/f/xlgjlnbz" method="POST">
+                                            <div class="form-group">
+                                                <label for="name" class="form-label">Your Name</label>
+                                                <input type="text" id="name" name="name" class="form-input" required>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="email" class="form-label">Email Address</label>
+                                                <input type="email" id="email" name="email" class="form-input" required>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="subject" class="form-label">Subject</label>
+                                                <select id="subject" name="subject" class="form-input" required>
+                                                    <option value="">Select a subject...</option>
+                                                    <option value="quote">Request a Quote</option>
+                                                    <option value="project">New Project Inquiry</option>
+                                                    <option value="consultation">Free Consultation</option>
+                                                    <option value="other">General Question</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="budget" class="form-label">Budget Range (Optional)</label>
+                                                <select id="budget" name="budget" class="form-input">
+                                                    <option value="">Select budget range...</option>
+                                                    <option value="< $1000">Less than $1,000</option>
+                                                    <option value="$1000-$5000">$1,000 - $5,000</option>
+                                                    <option value="$5000-$10000">$5,000 - $10,000</option>
+                                                    <option value="> $10000">More than $10,000</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="message" class="form-label">Project Details</label>
+                                                <textarea id="message" name="message" class="form-input form-textarea" rows="6" required placeholder="Tell me about your project, goals, and timeline..."></textarea>
+                                            </div>
+                                            
+                                            <div id="form-status" class="form-status"></div>
+                                            
+                                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                                Send Message
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div class="why-work">
+                        <h2 class="contact-title">Why Work With Me?</h2>
+                        <ul class="why-list">
+                            <li class="why-item">
+                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                <span><strong>Fast & Reliable:</strong> On-time delivery, every time</span>
+                            </li>
+                            <li class="why-item">
+                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                <span><strong>Scalable Solutions:</strong> Built for growth and efficiency</span>
+                            </li>
+                            <li class="why-item">
+                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                <span><strong>Clear Communication:</strong> Regular updates and transparency</span>
+                            </li>
+                            <li class="why-item">
+                                <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                <span><strong>Result-Driven:</strong> Focus on real business value</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Contact Form Section -->
+                <div style="margin-top: 64px;">
+                    <h2 class="section-title">Request a Quote or Get in Touch</h2>
+                    <div class="contact-card" style="max-width: 800px; margin: 0 auto;">
+                        <form id="contact-form" action="https://formspree.io/f/xlgjlnbz" method="POST">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" id="name" name="name" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Subject</label>
+                                <select id="subject" name="subject" class="form-input" required>
+                                    <option value="">Select a subject...</option>
+                                    <option value="quote">Request a Quote</option>
+                                    <option value="project">New Project Inquiry</option>
+                                    <option value="consultation">Free Consultation</option>
+                                    <option value="other">General Question</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="budget" class="form-label">Budget Range (Optional)</label>
+                                <select id="budget" name="budget" class="form-input">
+                                    <option value="">Select budget range...</option>
+                                    <option value="< $1000">Less than $1,000</option>
+                                    <option value="$1000-$5000">$1,000 - $5,000</option>
+                                    <option value="$5000-$10000">$5,000 - $10,000</option>
+                                    <option value="> $10000">More than $10,000</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">Project Details</label>
+                                <textarea id="message" name="message" class="form-input form-textarea" rows="6" required placeholder="Tell me about your project, goals, and timeline..."></textarea>
+                            </div>
+                            
+                            <div id="form-status" class="form-status"></div>
+                            
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div>
+                    <div class="project-category" id="modal-category"></div>
+                    <h2 class="project-title" id="modal-title" style="margin-top: 8px;"></h2>
+                </div>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <p class="project-desc" id="modal-desc"></p>
+            <h3 style="font-size: 20px; margin: 24px 0 16px;">Key Highlights</h3>
+            <ul class="highlights" id="modal-highlights"></ul>
+            <h3 style="font-size: 20px; margin: 24px 0 16px;">Technologies Used</h3>
+            <div class="tech-tags" id="modal-tech"></div>
+            <a href="#" class="btn btn-primary" style="margin-top: 24px; display: inline-flex;">
+                View Live Demo →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const projects = [
+            {
+                category: 'Web Scraping',
+                title: 'E-commerce Price Monitoring System',
+                description: 'Automated price tracking system monitoring 500+ products across multiple e-commerce platforms',
+                technologies: ['Python', 'Selenium', 'Pandas', 'PostgreSQL'],
+                highlights: [
+                    'Real-time price tracking with 99.9% accuracy',
+                    'Automated alerts for price drops',
+                    'Historical price analysis dashboard',
+                    'Handled dynamic JavaScript content'
+                ]
+            },
+            {
+                category: 'Data Analysis',
+                title: 'Social Media Analytics Pipeline',
+                description: 'End-to-end pipeline for collecting and analyzing social media data for brand sentiment analysis',
+                technologies: ['Python', 'API Integration', 'Pandas', 'Matplotlib'],
+                highlights: [
+                    'Collected 100K+ posts daily',
+                    'Sentiment analysis with NLP',
+                    'Interactive visualization dashboard',
+                    'Automated reporting system'
+                ]
+            },
+            {
+                category: 'Machine Learning',
+                title: 'Real Estate Market Analyzer',
+                description: 'Predictive model for real estate price forecasting using historical and current market data',
+                technologies: ['Python', 'Scikit-learn', 'BeautifulSoup', 'Plotly'],
+                highlights: [
+                    'Scraped 50K+ property listings',
+                    'Predictive model with 87% accuracy',
+                    'Market trend visualization',
+                    'Automated data updates'
+                ]
+            }
+        ];
+
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById(pageName).classList.add('active');
+            document.querySelector(`a[href="#${pageName}"]`).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showModal(index) {
+            const project = projects[index];
+            document.getElementById('modal-category').textContent = project.category;
+            document.getElementById('modal-title').textContent = project.title;
+            document.getElementById('modal-desc').textContent = project.description;
+            
+            const highlightsList = document.getElementById('modal-highlights');
+            highlightsList.innerHTML = '';
+            project.highlights.forEach(highlight => {
+                const li = document.createElement('li');
+                li.className = 'highlight-item';
+                li.innerHTML = `
+                    <svg class="highlight-icon" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                    <span>${highlight}</span>
+                `;
+                highlightsList.appendChild(li);
+            });
+
+            const techContainer = document.getElementById('modal-tech');
+            techContainer.innerHTML = '';
+            project.technologies.forEach(tech => {
+                const span = document.createElement('span');
+                span.className = 'tech-tag';
+                span.textContent = tech;
+                techContainer.appendChild(span);
+            });
+
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Filter functionality
+    const filterInput = document.getElementById('project-filter');
+    const clearButton = document.getElementById('clear-filter');
+    const filterResults = document.getElementById('filter-results');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    function filterProjects() {
+        const searchTerm = filterInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+        
+        if (searchTerm === '') {
+            // Show all projects
+            projectCards.forEach(card => {
+                card.classList.remove('hidden');
+            });
+            clearButton.style.display = 'none';
+            filterResults.classList.remove('active');
+            removeNoResultsMessage();
+            return;
+        }
+        
+        clearButton.style.display = 'flex';
+        
+        projectCards.forEach((card, index) => {
+            const project = projects[index];
+            
+            // Search in title, description, technologies, and category
+            const searchableText = [
+                project.title,
+                project.description,
+                project.category,
+                ...project.technologies,
+                ...project.highlights
+            ].join(' ').toLowerCase();
+            
+            if (searchableText.includes(searchTerm)) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+        
+        // Show results count
+        if (visibleCount > 0) {
+            filterResults.textContent = `Found ${visibleCount} project${visibleCount !== 1 ? 's' : ''} matching "${searchTerm}"`;
+            filterResults.classList.add('active');
+            removeNoResultsMessage();
+        } else {
+            filterResults.classList.remove('active');
+            showNoResultsMessage(searchTerm);
+        }
+    }
+
+    function showNoResultsMessage(searchTerm) {
+        removeNoResultsMessage();
+        
+        const noResultsDiv = document.createElement('div');
+        noResultsDiv.className = 'no-results';
+        noResultsDiv.id = 'no-results-message';
+        noResultsDiv.innerHTML = `
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3>No projects found</h3>
+            <p>Try searching for "Python", "Selenium", "Machine Learning", or other technologies</p>
+        `;
+        
+        document.querySelector('.projects-grid').appendChild(noResultsDiv);
+    }
+
+    function removeNoResultsMessage() {
+        const existingMessage = document.getElementById('no-results-message');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+    }
+
+    function clearFilter() {
+        filterInput.value = '';
+        filterProjects();
+        filterInput.focus();
+    }
+
+    // Event listeners
+    filterInput.addEventListener('input', filterProjects);
+    clearButton.addEventListener('click', clearFilter);
+
+    // Allow Enter key to trigger filter
+    filterInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            filterInput.blur(); // Optional: remove focus after Enter
+        }
+    });
+
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(fill => {
+                    fill.style.width = fill.style.width;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
