@@ -206,6 +206,128 @@
     }
   });
 
+  // ---- Projects filter ----
+  var projectFilter = document.getElementById('projectFilter');
+  var projectClear = document.getElementById('projectFilterClear');
+  var projectCount = document.getElementById('projectFilterCount');
+  var projectsGrid = document.querySelector('.projects__grid');
+  var projectCards = projectsGrid ? projectsGrid.querySelectorAll('.project-card') : [];
+
+  if (projectFilter && projectClear && projectCount && projectsGrid && projectCards.length) {
+    // Pre-index searchable text (category, title, desc, tags, metrics) per card
+    var projectIndex = [];
+    projectCards.forEach(function (card) {
+      projectIndex.push(card.textContent.replace(/\s+/g, ' ').trim().toLowerCase());
+    });
+
+    var emptyState = null;
+
+    function showEmptyState(term) {
+      if (!emptyState) {
+        emptyState = document.createElement('div');
+        emptyState.className = 'projects__empty';
+        emptyState.setAttribute('data-testid', 'projects-empty');
+        var heading = document.createElement('h3');
+        var hint = document.createElement('p');
+        hint.textContent = 'Try a platform like TikTok or Meta Ads, or a skill like UGC or Motion Graphics.';
+        emptyState.appendChild(heading);
+        emptyState.appendChild(hint);
+        projectsGrid.appendChild(emptyState);
+      }
+      // textContent keeps the user's input inert (no HTML injection)
+      emptyState.querySelector('h3').textContent = 'No projects match “' + term + '”';
+    }
+
+    function clearEmptyState() {
+      if (emptyState) { emptyState.remove(); emptyState = null; }
+    }
+
+    function runFilter() {
+      var term = projectFilter.value.replace(/\s+/g, ' ').trim().toLowerCase();
+      projectClear.hidden = term === '';
+
+      if (term === '') {
+        projectCards.forEach(function (card) { card.classList.remove('is-hidden'); });
+        projectCount.textContent = '';
+        clearEmptyState();
+        return;
+      }
+
+      var visible = 0;
+      projectCards.forEach(function (card, i) {
+        var match = projectIndex[i].indexOf(term) !== -1;
+        card.classList.toggle('is-hidden', !match);
+        if (match) visible++;
+      });
+
+      if (visible > 0) {
+        clearEmptyState();
+        projectCount.innerHTML = 'Showing <b>' + visible + '</b> of ' + projectCards.length + ' projects';
+      } else {
+        projectCount.textContent = '';
+        showEmptyState(projectFilter.value.trim());
+      }
+    }
+
+    projectFilter.addEventListener('input', runFilter);
+    projectClear.addEventListener('click', function () {
+      projectFilter.value = '';
+      runFilter();
+      projectFilter.focus();
+    });
+  }
+
+  // ---- Contact form (Formspree AJAX) ----
+  var contactForm = document.getElementById('contactForm');
+  var formStatus = document.getElementById('formStatus');
+
+  if (contactForm && formStatus) {
+    var submitBtn = contactForm.querySelector('[type="submit"]');
+
+    function setStatus(message, type) {
+      formStatus.textContent = message;
+      formStatus.className = 'form-status is-visible is-' + type;
+    }
+
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Guard against an unconfigured endpoint
+      if (contactForm.action.indexOf('YOUR_FORM_ID') !== -1) {
+        setStatus('Form not connected yet — add your Formspree form ID to make it live.', 'error');
+        return;
+      }
+
+      if (submitBtn) submitBtn.classList.add('is-loading');
+      setStatus('Sending…', 'success');
+
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (res) {
+          if (res.ok) {
+            contactForm.reset();
+            setStatus('Thanks — your brief is on its way. I reply within 24 hours.', 'success');
+          } else {
+            return res.json().then(function (data) {
+              var msg = data && data.errors
+                ? data.errors.map(function (err) { return err.message; }).join(', ')
+                : 'Something went wrong. Please email me directly instead.';
+              setStatus(msg, 'error');
+            });
+          }
+        })
+        .catch(function () {
+          setStatus('Network error. Please email me directly instead.', 'error');
+        })
+        .finally(function () {
+          if (submitBtn) submitBtn.classList.remove('is-loading');
+        });
+    });
+  }
+
   // ---- Nav background intensity on scroll ----
   var nav = document.querySelector('.nav');
   if (nav) {
