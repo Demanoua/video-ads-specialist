@@ -529,6 +529,23 @@
           lifestyle brands.</p>
       </header>
 
+      <div class="projects__filter reveal" data-testid="projects-filter">
+        <div class="projects__search">
+          <svg class="projects__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path stroke-linecap="round" d="M21 21l-4.3-4.3" />
+          </svg>
+          <input type="search" id="projectFilter" class="projects__search-input" autocomplete="off"
+            placeholder="Filter by brand, platform, or skill — e.g. UGC, Meta Ads, TikTok…"
+            aria-label="Filter projects" data-testid="projects-filter-input" />
+          <button type="button" class="projects__clear" id="projectFilterClear" aria-label="Clear filter"
+            hidden data-testid="projects-filter-clear">&times;</button>
+        </div>
+        <p class="projects__count" id="projectFilterCount" role="status" aria-live="polite"
+          data-testid="projects-filter-count"></p>
+      </div>
+
       <div class="projects__grid">
         <!-- Project 1: E-commerce Hair Campaign -->
         <article class="project-card reveal" data-testid="project-hair-campaign">
