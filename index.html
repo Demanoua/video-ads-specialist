@@ -20,8 +20,7 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://demanoua.github.io/video-ads-specialist/">
-  <meta property="og:title"
-    content="GSA Creatives — Video Ads Agency | High-Converting E-commerce &amp; Social Ads">
+  <meta property="og:title" content="GSA Creatives — Video Ads Agency | High-Converting E-commerce &amp; Social Ads">
   <meta property="og:description"
     content="Scroll-stopping, high-converting video ads engineered with consumer psychology, direct response marketing, and data analysis to turn viewers into buyers.">
   <meta property="og:image" content="https://demanoua.github.io/video-ads-specialist/assets/images/b.png" />
@@ -292,22 +291,23 @@
       <div class="showreel__toolbar reveal" data-testid="showreel-toolbar">
         <div class="projects__filter showreel__filter" data-testid="projects-filter">
           <div class="projects__search">
-            <svg class="projects__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" aria-hidden="true">
+            <svg class="projects__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              aria-hidden="true">
               <circle cx="11" cy="11" r="7" />
               <path stroke-linecap="round" d="M21 21l-4.3-4.3" />
             </svg>
             <input type="search" id="projectFilter" class="projects__search-input" autocomplete="off"
-              placeholder="Search a project — e.g. UGC, Meta Ads, VIN, spot TV…"
-              aria-label="Search projects" data-testid="projects-filter-input" />
-            <button type="button" class="projects__clear" id="projectFilterClear" aria-label="Clear search"
-              hidden data-testid="projects-filter-clear">&times;</button>
+              placeholder="Search a project — e.g. UGC, Meta Ads, VIN, spot TV…" aria-label="Search projects"
+              data-testid="projects-filter-input" />
+            <button type="button" class="projects__clear" id="projectFilterClear" aria-label="Clear search" hidden
+              data-testid="projects-filter-clear">&times;</button>
           </div>
+          <div class="showreel__suggest" id="searchSuggest" hidden data-testid="search-suggest"></div>
           <p class="projects__count" id="projectFilterCount" role="status" aria-live="polite"
             data-testid="projects-filter-count"></p>
         </div>
-        <button type="button" class="btn btn--ghost showreel__share-btn" id="shareToggle"
-          aria-pressed="false" data-testid="showreel-share-toggle">
+        <button type="button" class="btn btn--ghost showreel__share-btn" id="shareToggle" aria-pressed="false"
+          data-testid="showreel-share-toggle">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
             aria-hidden="true">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
@@ -323,10 +323,29 @@
           full portfolio</button>
       </div>
 
-      <div class="showreel__grid" id="showreelGrid" data-testid="showreel-grid">
-        <noscript>
-          <p class="projects__empty">This portfolio needs JavaScript to display the showreel. Please enable it.</p>
-        </noscript>
+      <div class="showreel__stage" id="showreelStage" data-testid="showreel-stage">
+        <div class="showreel__grid" id="showreelGrid" data-testid="showreel-grid">
+          <noscript>
+            <p class="projects__empty">This portfolio needs JavaScript to display the showreel. Please enable it.</p>
+          </noscript>
+        </div>
+        <div class="showreel__controls" id="showreelControls" hidden data-testid="showreel-controls">
+          <button type="button" class="showreel__arrow" id="showreelPrev" aria-label="Previous projects"
+            data-testid="showreel-prev">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              aria-hidden="true">
+              <path d="M19 12H5M11 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <span class="showreel__pager" id="showreelPager" aria-live="polite">1 / 4</span>
+          <button type="button" class="showreel__arrow" id="showreelNext" aria-label="Next projects"
+            data-testid="showreel-next">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -479,7 +498,8 @@
 
         <figure class="quote reveal" data-testid="testimonial-4">
           <blockquote>"Three hook variants beat our control in week one. Cold-traffic CTR went from 1.9% to
-            <em>3.8%</em>. Fast, calm, and surgical with feedback."</blockquote>
+            <em>3.8%</em>. Fast, calm, and surgical with feedback."
+          </blockquote>
           <figcaption>
             <span class="avatar" aria-hidden="true">LV</span>
             <div>
@@ -523,7 +543,8 @@
             read-outs on Hook Rate, Hold Rate, CTR and ROAS. We ship first cuts in <strong>24–48 hours</strong>,
             then iterate on performance data until the ad wins.</p>
 
-          <p>From e-commerce and lifestyle brands to SaaS demos and TV spots, our work runs in <strong>9:16 feeds</strong>
+          <p>From e-commerce and lifestyle brands to SaaS demos and TV spots, our work runs in <strong>9:16
+              feeds</strong>
             and on <strong>big screens</strong> across Africa, Europe and North America. Every client leaves with
             something they can show — and numbers to back it up.</p>
         </div>
@@ -549,14 +570,16 @@
 
       <div class="cta__actions reveal">
         <button type="button" class="btn btn--primary btn--xl" id="emailToggle" aria-expanded="false"
-          aria-controls="contactFormWrap" data-testid="cta-email-button">
+          aria-haspopup="dialog" aria-controls="contactModal" data-testid="cta-email-button">
           <span>gsacreatives@gmail.com</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
             aria-hidden="true">
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
         </button>
-        <a href="#" class="btn btn--ghost btn--xl" data-testid="cta-calendar-button">Book a 20-min call</a>
+        <a href="https://wa.me/2250505902028?text=Hi%20GSA%20Creatives!%20I%27ve%20just%20gone%20through%20your%20portfolio%20and%20I%27d%20like%20to%20book%20a%2020-min%20call%20about%20a%20video%20ads%20project.%20When%20works%20best%20for%20you%20this%20week%3F"
+          target="_blank" rel="noopener" class="btn btn--ghost btn--xl" data-testid="cta-calendar-button">Book a
+          20-min call</a>
       </div>
 
       <ul class="cta__socials reveal" data-testid="cta-socials">
@@ -566,61 +589,6 @@
         <li><a href="#" data-testid="social-tiktok">TikTok</a></li>
         <li><a href="#" data-testid="social-linkedin">LinkedIn</a></li>
       </ul>
-
-      <div class="contact-form__wrap" id="contactFormWrap" data-testid="contact-form-wrap">
-        <form class="contact-form" id="contactForm" method="POST" action="https://formspree.io/f/xlgjlnbz"
-          data-testid="contact-form">
-          <h3 class="contact-form__title">Send a brief right here</h3>
-          <div class="contact-form__row">
-            <div class="form-group">
-              <label class="form-label" for="cf-name">Your name</label>
-              <input class="form-input" type="text" id="cf-name" name="name" autocomplete="name" required
-                data-testid="contact-name" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cf-email">Email address</label>
-              <input class="form-input" type="email" id="cf-email" name="email" autocomplete="email" required
-                data-testid="contact-email" />
-            </div>
-          </div>
-          <div class="contact-form__row">
-            <div class="form-group">
-              <label class="form-label" for="cf-subject">Subject</label>
-              <select class="form-input" id="cf-subject" name="subject" required data-testid="contact-subject">
-                <option value="">Select a subject…</option>
-                <option value="Request a quote">Request a quote</option>
-                <option value="New project inquiry">New project inquiry</option>
-                <option value="Free consultation">Free consultation</option>
-                <option value="General question">General question</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="cf-budget">Budget range <span>(optional)</span></label>
-              <select class="form-input" id="cf-budget" name="budget" data-testid="contact-budget">
-                <option value="">Select budget range…</option>
-                <option value="&lt; $500">Less than $500</option>
-                <option value="$500–$1,000">$500 – $1,000</option>
-                <option value="$1,000–$3,000">$1,000 – $3,000</option>
-                <option value="&gt; $3,000">More than $3,000</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="cf-message">Project details</label>
-            <textarea class="form-input form-textarea" id="cf-message" name="message" rows="6" required
-              placeholder="Tell me about your brand, goals, platforms (TikTok, Meta…) and timeline."
-              data-testid="contact-message"></textarea>
-          </div>
-          <p class="form-status" id="formStatus" role="status" aria-live="polite" data-testid="contact-status"></p>
-          <button class="btn btn--primary btn--xl contact-form__submit" type="submit" data-testid="contact-submit">
-            <span>Send message</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              aria-hidden="true">
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
-          </button>
-        </form>
-      </div>
     </div>
   </section>
 
@@ -631,18 +599,93 @@
     </div>
   </footer>
 
+  <!-- ============== CONTACT MODAL ============== -->
+  <div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="contactModalTitle" data-testid="contact-modal">
+    <div class="modal__card" role="document">
+      <div class="modal__head">
+        <div>
+          <span class="modal__eyebrow">New brief</span>
+          <h3 class="modal__title" id="contactModalTitle">Send a brief right here</h3>
+        </div>
+        <button class="modal__close" type="button" aria-label="Close dialog"
+          data-testid="contact-modal-close">&times;</button>
+      </div>
+      <form class="contact-form" id="contactForm" method="POST" action="https://formspree.io/f/xlgjlnbz" novalidate
+        data-testid="contact-form">
+        <div class="contact-form__row">
+          <div class="form-group">
+            <label class="form-label" for="cf-name">Your name</label>
+            <input class="form-input" type="text" id="cf-name" name="name" autocomplete="name" required
+              data-testid="contact-name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-email">Email address</label>
+            <input class="form-input" type="email" id="cf-email" name="email" autocomplete="email" required
+              data-testid="contact-email" />
+          </div>
+        </div>
+        <div class="contact-form__row">
+          <div class="form-group">
+            <label class="form-label" for="cf-subject">Subject</label>
+            <select class="form-input" id="cf-subject" name="subject" required data-custom-select
+              data-testid="contact-subject">
+              <option value="">Select a subject…</option>
+              <option value="Request a quote">Request a quote</option>
+              <option value="New project inquiry">New project inquiry</option>
+              <option value="Free consultation">Free consultation</option>
+              <option value="General question">General question</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-budget">Budget range <span>(optional)</span></label>
+            <select class="form-input" id="cf-budget" name="budget" data-custom-select data-testid="contact-budget">
+              <option value="">Select budget range…</option>
+              <option value="&lt; $500">Less than $500</option>
+              <option value="$500–$1,000">$500 – $1,000</option>
+              <option value="$1,000–$3,000">$1,000 – $3,000</option>
+              <option value="&gt; $3,000">More than $3,000</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cf-message">Project details</label>
+          <textarea class="form-input form-textarea" id="cf-message" name="message" rows="6" required
+            placeholder="Tell me about your brand, goals, platforms (TikTok, Meta…) and timeline."
+            data-testid="contact-message"></textarea>
+        </div>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite" data-testid="contact-status"></p>
+        <button class="btn btn--primary btn--xl contact-form__submit" type="submit" data-testid="contact-submit">
+          <span>Send message</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- ============== SHARE BAR (client-link builder) ============== -->
   <div class="sharebar" id="sharebar" aria-hidden="true" data-testid="sharebar">
     <span class="sharebar__count" id="shareCount"><b>0</b> selected</span>
-    <input class="sharebar__link" id="shareLink" type="text" readonly
-      placeholder="Your client link appears here" aria-label="Generated client link" />
+    <input class="sharebar__link" id="shareLink" type="text" readonly placeholder="Your client link appears here"
+      aria-label="Generated client link" />
     <button class="btn btn--primary btn--sm" id="shareGenerate" type="button" data-testid="share-generate">Generate
       link</button>
-    <button class="btn btn--ghost btn--sm" id="shareCopy" type="button" disabled
-      data-testid="share-copy">Copy</button>
+    <button class="btn btn--ghost btn--sm" id="shareCopy" type="button" disabled data-testid="share-copy">Copy</button>
     <button class="btn btn--ghost btn--sm" id="shareExit" type="button" data-testid="share-exit">Done</button>
     <span class="sharebar__status" id="shareStatus" role="status" aria-live="polite"></span>
   </div>
+
+  <!-- ============== FLOATING "HIRE ME" BUTTON ============== -->
+  <a href="#contact" class="fab" aria-label="Hire me — jump to the contact section" data-testid="fab-hire">
+    <span>Hire me</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+      aria-hidden="true">
+      <path d="M5 12h14M13 5l7 7-7 7" />
+    </svg>
+  </a>
 
   <!-- ============== LIGHTBOX ============== -->
   <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true" aria-label="Showreel preview"
