@@ -142,8 +142,21 @@
   var shareExit = document.getElementById('shareExit');
   var shareStatus = document.getElementById('shareStatus');
 
-  // Fixed once per page load: visitors always see the same 5 until reload
-  var defaultFive = shuffle(PROJECTS).slice(0, 5);
+  // Pages fixed once per load: same shuffled order until reload
+  var defaultPages = [];
+  (function () {
+    var shuffled = shuffle(PROJECTS);
+    for (var i = 0; i < shuffled.length; i += 5) defaultPages.push(shuffled.slice(i, i + 5));
+  })();
+  var pageIndex = 0;
+  var track = null;
+  var swipeSuppressUntil = 0;
+
+  var stage = document.getElementById('showreelStage');
+  var controls = document.getElementById('showreelControls');
+  var prevBtn = document.getElementById('showreelPrev');
+  var nextBtn = document.getElementById('showreelNext');
+  var pagerEl = document.getElementById('showreelPager');
 
   var state = {
     term: '',
@@ -197,6 +210,7 @@
     if (state.selected.indexOf(p.id) !== -1) btn.classList.add('is-selected');
 
     btn.addEventListener('click', function () {
+      if (Date.now() < swipeSuppressUntil) return; // ignore the click that ends a swipe
       if (state.selectMode) {
         toggleSelect(p.id, btn);
       } else {
@@ -208,6 +222,9 @@
 
   function render(list, sizes) {
     if (!grid) return;
+    grid.classList.remove('is-paged');
+    track = null;
+    if (controls) controls.hidden = true;
     grid.innerHTML = '';
     list.forEach(function (p, i) {
       grid.appendChild(buildTile(p, sizes ? sizes[i] : ''));
@@ -221,6 +238,93 @@
 
   function matches(p, term) {
     return (p.title + ' ' + p.tag).toLowerCase().indexOf(term) !== -1;
+  }
+
+  /* ---------- Paged swipe slider ---------- */
+  function buildPaged(pages) {
+    if (!grid) return;
+    grid.classList.add('is-paged');
+    grid.innerHTML = '';
+    track = document.createElement('div');
+    track.className = 'showreel__track';
+    pages.forEach(function (pageProjects) {
+      var page = document.createElement('div');
+      page.className = 'showreel__page';
+      var pattern = SIZE_PATTERNS[Math.floor(Math.random() * SIZE_PATTERNS.length)];
+      pageProjects.forEach(function (p, i) {
+        page.appendChild(buildTile(p, pattern[i]));
+      });
+      track.appendChild(page);
+    });
+    grid.appendChild(track);
+    if (controls) controls.hidden = false;
+    goToPage(0, true);
+    var tiles = grid.querySelectorAll('.reel');
+    tiles.forEach(function (tile, i) {
+      setTimeout(function () { tile.classList.add('is-visible'); }, 40 + i * 40);
+    });
+  }
+
+  function goToPage(i, instant) {
+    if (!track) return;
+    pageIndex = Math.max(0, Math.min(i, defaultPages.length - 1));
+    if (instant) track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + pageIndex * 100 + '%)';
+    if (instant) {
+      void track.offsetWidth; // reflow, then restore the transition
+      track.style.transition = '';
+    }
+    if (pagerEl) pagerEl.textContent = (pageIndex + 1) + ' / ' + defaultPages.length;
+    if (prevBtn) prevBtn.disabled = pageIndex === 0;
+    if (nextBtn) nextBtn.disabled = pageIndex === defaultPages.length - 1;
+  }
+
+  var dragStartX = 0, dragStartY = 0, dragDx = 0, dragActive = false, dragHorizontal = false;
+
+  if (stage) {
+    stage.addEventListener('pointerdown', function (e) {
+      if (!grid.classList.contains('is-paged') || !track) return;
+      dragActive = true;
+      dragHorizontal = false;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      dragDx = 0;
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!dragActive || !track) return;
+      dragDx = e.clientX - dragStartX;
+      var dy = e.clientY - dragStartY;
+      if (!dragHorizontal) {
+        if (Math.abs(dragDx) > 10 && Math.abs(dragDx) > Math.abs(dy)) dragHorizontal = true;
+        else if (Math.abs(dy) > 10) dragActive = false; // vertical scroll wins
+      }
+      if (dragHorizontal) {
+        var base = -pageIndex * grid.clientWidth;
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(' + (base + dragDx) + 'px)';
+      }
+    });
+    window.addEventListener('pointerup', function () {
+      if (!dragActive) return;
+      dragActive = false;
+      if (!track) return;
+      track.style.transition = '';
+      if (dragHorizontal) {
+        if (Math.abs(dragDx) > 60) goToPage(pageIndex + (dragDx < 0 ? 1 : -1));
+        else goToPage(pageIndex);
+        swipeSuppressUntil = Date.now() + 350;
+      }
+      dragHorizontal = false;
+      dragDx = 0;
+    });
+    if (prevBtn) prevBtn.addEventListener('click', function () {
+      if (Date.now() < swipeSuppressUntil) return;
+      goToPage(pageIndex - 1);
+    });
+    if (nextBtn) nextBtn.addEventListener('click', function () {
+      if (Date.now() < swipeSuppressUntil) return;
+      goToPage(pageIndex + 1);
+    });
   }
 
   function renderCurrent() {
@@ -245,9 +349,8 @@
       render(PROJECTS, null);
       setCount('Selection mode — tick any videos, then <b>Generate link</b> for your client.');
     } else {
-      var pattern = SIZE_PATTERNS[Math.floor(Math.random() * SIZE_PATTERNS.length)];
-      render(defaultFive, pattern);
-      setCount('Showing <b>' + defaultFive.length + '</b> of ' + PROJECTS.length + ' — reload for a new mix, or search above.');
+      buildPaged(defaultPages);
+      setCount('Showing <b>5</b> of ' + PROJECTS.length + ' projects — swipe or use the arrows to see more.');
     }
   }
 
@@ -271,18 +374,70 @@
     if (emptyState && emptyState.parentNode) emptyState.parentNode.removeChild(emptyState);
   }
 
-  /* ---------- Search ---------- */
+  /* ---------- Search + suggestions ---------- */
+  var suggest = document.getElementById('searchSuggest');
+
+  function hideSuggestions() {
+    if (suggest) suggest.hidden = true;
+  }
+
+  function pickSuggestion(p) {
+    hideSuggestions();
+    searchInput.value = p.title;
+    state.term = p.title;
+    searchClear.hidden = false;
+    renderCurrent();
+    openLightbox(p.title, p.tag, p.video);
+  }
+
+  function showSuggestions() {
+    if (!suggest || !searchInput || state.selectMode) return;
+    var term = searchInput.value.replace(/\s+/g, ' ').trim().toLowerCase();
+    var pool = term ? PROJECTS.filter(function (p) { return matches(p, term); }) : PROJECTS;
+    if (!pool.length) { hideSuggestions(); return; }
+    suggest.innerHTML = '';
+    var label = document.createElement('span');
+    label.className = 'showreel__suggest-label';
+    label.textContent = term ? 'Matching projects' : 'Suggested projects';
+    suggest.appendChild(label);
+    pool.slice(0, 6).forEach(function (p) {
+      var item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'suggest__item';
+      var t = document.createElement('span');
+      t.className = 'suggest__item-title';
+      t.textContent = p.title;
+      var tg = document.createElement('span');
+      tg.className = 'suggest__item-tag';
+      tg.textContent = p.tag;
+      item.appendChild(t);
+      item.appendChild(tg);
+      item.addEventListener('mousedown', function (e) {
+        e.preventDefault(); // mousedown fires before blur, so the click always lands
+        pickSuggestion(p);
+      });
+      suggest.appendChild(item);
+    });
+    suggest.hidden = false;
+  }
+
   if (searchInput && searchClear) {
     searchInput.addEventListener('input', function () {
       state.term = searchInput.value;
       searchClear.hidden = state.term === '';
       renderCurrent();
+      showSuggestions();
+    });
+    searchInput.addEventListener('focus', showSuggestions);
+    searchInput.addEventListener('blur', function () {
+      setTimeout(hideSuggestions, 140);
     });
     searchClear.addEventListener('click', function () {
       searchInput.value = '';
       state.term = '';
       searchClear.hidden = true;
       renderCurrent();
+      hideSuggestions();
       searchInput.focus();
     });
   }
@@ -491,24 +646,126 @@
   }
 
   /* =====================================================
-     Contact form — collapsible + Formspree AJAX
+     Custom selects (stylized dropdowns, design-matched)
+     ===================================================== */
+  function enhanceSelect(select) {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'custom-select';
+    select.parentNode.insertBefore(wrapper, select);
+    wrapper.appendChild(select);
+    select.classList.add('custom-select__native');
+
+    var trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'custom-select__trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    var triggerText = document.createElement('span');
+    triggerText.className = 'custom-select__trigger-text';
+    var chev = document.createElement('span');
+    chev.className = 'custom-select__chev';
+    chev.setAttribute('aria-hidden', 'true');
+    chev.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
+    trigger.appendChild(triggerText);
+    trigger.appendChild(chev);
+    wrapper.appendChild(trigger);
+
+    var panel = document.createElement('div');
+    panel.className = 'custom-select__panel';
+    panel.setAttribute('role', 'listbox');
+    var optionBtns = [];
+    Array.prototype.forEach.call(select.options, function (opt) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'custom-select__option';
+      btn.setAttribute('role', 'option');
+      btn.dataset.value = opt.value;
+      var txt = document.createElement('span');
+      txt.textContent = opt.textContent;
+      var mark = document.createElement('span');
+      mark.className = 'custom-select__option-check';
+      mark.setAttribute('aria-hidden', 'true');
+      mark.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+      btn.appendChild(txt);
+      btn.appendChild(mark);
+      btn.addEventListener('click', function () {
+        select.value = opt.value;
+        sync();
+        closePanel();
+      });
+      panel.appendChild(btn);
+      optionBtns.push(btn);
+    });
+    wrapper.appendChild(panel);
+
+    function sync() {
+      var selected = select.options[select.selectedIndex];
+      triggerText.textContent = selected ? selected.textContent : '';
+      trigger.classList.toggle('is-placeholder', select.value === '');
+      optionBtns.forEach(function (btn) {
+        btn.classList.toggle('is-selected', btn.dataset.value !== '' && btn.dataset.value === select.value);
+      });
+    }
+
+    function openPanel() {
+      wrapper.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+    function closePanel() {
+      wrapper.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('click', function () {
+      if (wrapper.classList.contains('is-open')) closePanel();
+      else openPanel();
+    });
+    wrapper.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closePanel(); trigger.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!wrapper.contains(e.target)) closePanel();
+    });
+
+    wrapper.__resync = sync;
+    sync();
+  }
+
+  document.querySelectorAll('select[data-custom-select]').forEach(enhanceSelect);
+
+  /* =====================================================
+     Contact modal + Formspree AJAX
      ===================================================== */
   var emailToggle = document.getElementById('emailToggle');
-  var formWrap = document.getElementById('contactFormWrap');
+  var contactModal = document.getElementById('contactModal');
+  var modalClose = contactModal ? contactModal.querySelector('.modal__close') : null;
   var contactForm = document.getElementById('contactForm');
   var formStatus = document.getElementById('formStatus');
 
-  if (emailToggle && formWrap) {
-    emailToggle.addEventListener('click', function () {
-      var open = formWrap.classList.toggle('is-open');
-      emailToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (open) {
-        var firstField = document.getElementById('cf-name');
-        setTimeout(function () {
-          formWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          if (firstField) firstField.focus({ preventScroll: true });
-        }, 350);
-      }
+  function openContactModal() {
+    if (!contactModal) return;
+    contactModal.classList.add('is-open');
+    contactModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (emailToggle) emailToggle.setAttribute('aria-expanded', 'true');
+    var firstField = document.getElementById('cf-name');
+    setTimeout(function () { if (firstField) firstField.focus({ preventScroll: true }); }, 250);
+  }
+
+  function closeContactModal() {
+    if (!contactModal || !contactModal.classList.contains('is-open')) return;
+    contactModal.classList.remove('is-open');
+    contactModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (emailToggle) emailToggle.setAttribute('aria-expanded', 'false');
+    if (emailToggle) emailToggle.focus({ preventScroll: true });
+  }
+
+  if (emailToggle) emailToggle.addEventListener('click', openContactModal);
+  if (modalClose) modalClose.addEventListener('click', closeContactModal);
+  if (contactModal) {
+    contactModal.addEventListener('click', function (e) {
+      if (e.target === contactModal) closeContactModal();
     });
   }
 
@@ -522,6 +779,33 @@
 
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      // Manual validation (form uses novalidate + custom-styled selects)
+      var nameEl = contactForm.elements.namedItem('name');
+      var emailEl = contactForm.elements.namedItem('email');
+      var subjectEl = contactForm.elements.namedItem('subject');
+      var messageEl = contactForm.elements.namedItem('message');
+      var emailVal = emailEl ? emailEl.value.trim() : '';
+
+      if (!nameEl || !nameEl.value.trim()) {
+        setStatus('Please enter your name.', 'error');
+        if (nameEl) nameEl.focus();
+        return;
+      }
+      if (!emailVal || emailVal.indexOf('@') === -1 || emailVal.indexOf('.') === -1) {
+        setStatus('Please enter a valid email address.', 'error');
+        if (emailEl) emailEl.focus();
+        return;
+      }
+      if (!subjectEl || !subjectEl.value) {
+        setStatus('Please select a subject.', 'error');
+        return;
+      }
+      if (!messageEl || !messageEl.value.trim()) {
+        setStatus('Please tell me a few words about your project.', 'error');
+        if (messageEl) messageEl.focus();
+        return;
+      }
 
       if (contactForm.action.indexOf('YOUR_FORM_ID') !== -1) {
         setStatus('Form not connected yet — email gsacreatives@gmail.com directly.', 'error');
@@ -539,7 +823,11 @@
         .then(function (res) {
           if (res.ok) {
             contactForm.reset();
+            document.querySelectorAll('.custom-select').forEach(function (w) {
+              if (w.__resync) w.__resync();
+            });
             setStatus('Thanks — your brief is on its way. I reply within 24 hours.', 'success');
+            setTimeout(closeContactModal, 2600);
           } else {
             return res.json().then(function (data) {
               var msg = data && data.errors
@@ -576,6 +864,7 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       closeLightbox();
+      closeContactModal();
       setMenu(false);
       if (state.selectMode) setSelectMode(false);
     }
