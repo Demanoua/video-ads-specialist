@@ -89,6 +89,7 @@
 
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="icon"
@@ -113,6 +114,12 @@
         <a href="#about" data-testid="nav-about-link">About</a>
         <a href="#contact" data-testid="nav-contact-link">Contact</a>
       </nav>
+      <div class="lang-switch" data-testid="lang-switch" role="group" aria-label="Choose your language">
+        <button type="button" data-lang="en" aria-label="English">🇬🇧</button>
+        <button type="button" data-lang="fr" aria-label="Français">🇫🇷</button>
+        <button type="button" data-lang="es" aria-label="Español">🇪🇸</button>
+        <button type="button" data-lang="ar" aria-label="العربية">🇸🇦</button>
+      </div>
       <a href="#contact" class="btn btn--primary nav__cta" data-testid="nav-cta-button">
         <span>Hire me</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
@@ -139,6 +146,12 @@
       <a href="#contact" data-testid="mobile-contact-link">Contact <span>07</span></a>
     </nav>
     <div class="mobile-menu__foot">
+      <div class="lang-switch" data-testid="mobile-lang-switch" role="group" aria-label="Choose your language">
+        <button type="button" data-lang="en" aria-label="English">🇬🇧</button>
+        <button type="button" data-lang="fr" aria-label="Français">🇫🇷</button>
+        <button type="button" data-lang="es" aria-label="Español">🇪🇸</button>
+        <button type="button" data-lang="ar" aria-label="العربية">🇸🇦</button>
+      </div>
       <a href="#contact" class="btn btn--primary" data-testid="mobile-hire-button">
         <span>Hire me</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
@@ -577,7 +590,7 @@
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
         </button>
-        <a href="https://wa.me/2250505902028?text=Hi%20GSA%20Creatives!%20I%27ve%20just%20gone%20through%20your%20portfolio%20and%20I%27d%20like%20to%20book%20a%2020-min%20call%20about%20a%20video%20ads%20project.%20When%20works%20best%20for%20you%20this%20week%3F"
+        <a href="https://wa.me/2250102030405?text=Hi%20GSA%20Creatives!%20I%27ve%20just%20gone%20through%20your%20portfolio%20and%20I%27d%20like%20to%20book%20a%2020-min%20call%20about%20a%20video%20ads%20project.%20When%20works%20best%20for%20you%20this%20week%3F"
           target="_blank" rel="noopener" class="btn btn--ghost btn--xl" data-testid="cta-calendar-button">Book a
           20-min call</a>
       </div>
@@ -704,6 +717,8 @@
     </div>
   </div>
 
+  <script src="assets/js/i18n.js" defer></script>
+  <script src="assets/js/tracker.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 
 </body>
