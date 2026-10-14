@@ -51,6 +51,11 @@
     return null;
   }
 
+  /* i18n shortcut (i18n.js loads before main.js) */
+  function t(key, vars) {
+    return window.GSA_I18N ? window.GSA_I18N.t(key, vars) : key;
+  }
+
   function shuffle(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -175,7 +180,7 @@
     btn.className = 'reel reveal' + (sizeClass ? ' ' + sizeClass : '');
     btn.setAttribute('data-testid', 'reel-' + p.id);
     btn.dataset.id = p.id;
-    btn.setAttribute('aria-label', 'Play: ' + p.title);
+    btn.setAttribute('aria-label', t('tile.play') + ': ' + p.title);
 
     var img = document.createElement('img');
     img.src = p.img;
@@ -241,6 +246,8 @@
   }
 
   /* ---------- Paged swipe slider ---------- */
+  var RATIOS = ['', 'reel--r1', 'reel--r2', 'reel--r3'];
+
   function buildPaged(pages) {
     if (!grid) return;
     grid.classList.add('is-paged');
@@ -252,7 +259,9 @@
       page.className = 'showreel__page';
       var pattern = SIZE_PATTERNS[Math.floor(Math.random() * SIZE_PATTERNS.length)];
       pageProjects.forEach(function (p, i) {
-        page.appendChild(buildTile(p, pattern[i]));
+        var cls = pattern[i];
+        if (!cls) cls = RATIOS[Math.floor(Math.random() * RATIOS.length)];
+        page.appendChild(buildTile(p, cls));
       });
       track.appendChild(page);
     });
@@ -335,7 +344,7 @@
       var results = PROJECTS.filter(function (p) { return matches(p, term); });
       render(results, null);
       if (results.length) {
-        setCount('Showing <b>' + results.length + '</b> of ' + PROJECTS.length + ' projects — click a tile to preview.');
+        setCount(t('count.results', { n: results.length, total: PROJECTS.length }));
         clearEmpty();
       } else {
         setCount('');
@@ -347,10 +356,10 @@
     clearEmpty();
     if (state.selectMode) {
       render(PROJECTS, null);
-      setCount('Selection mode — tick any videos, then <b>Generate link</b> for your client.');
+      setCount(t('count.select'));
     } else {
       buildPaged(defaultPages);
-      setCount('Showing <b>5</b> of ' + PROJECTS.length + ' projects — swipe or use the arrows to see more.');
+      setCount(t('count.paged', { n: PROJECTS.length }));
     }
   }
 
@@ -363,11 +372,11 @@
       emptyState.setAttribute('data-testid', 'projects-empty');
       var heading = document.createElement('h3');
       var hint = document.createElement('p');
-      hint.textContent = 'Try a platform like TikTok or Meta Ads, a brand like VIN or Pulse, or a format like UGC or spot TV.';
       emptyState.appendChild(heading);
       emptyState.appendChild(hint);
     }
-    emptyState.querySelector('h3').textContent = 'No projects match "' + term + '"';
+    emptyState.querySelector('h3').textContent = t('empty.title', { term: term });
+    emptyState.querySelector('p').textContent = t('empty.hint');
     if (!emptyState.parentNode) grid.appendChild(emptyState);
   }
   function clearEmpty() {
@@ -398,7 +407,7 @@
     suggest.innerHTML = '';
     var label = document.createElement('span');
     label.className = 'showreel__suggest-label';
-    label.textContent = term ? 'Matching projects' : 'Suggested projects';
+    label.textContent = term ? t('suggest.matches') : t('suggest.all');
     suggest.appendChild(label);
     pool.slice(0, 6).forEach(function (p) {
       var item = document.createElement('button');
@@ -453,7 +462,7 @@
 
   function updateSharebar() {
     var n = state.selected.length;
-    shareCount.innerHTML = '<b>' + n + '</b> selected';
+    shareCount.innerHTML = t('share.count', { n: n });
     shareGenerate.disabled = n === 0;
     if (n === 0) {
       shareLink.value = '';
@@ -466,7 +475,7 @@
     state.selectMode = on;
     showreelSection.classList.toggle('is-select-mode', on);
     shareToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
-    shareToggle.querySelector('span').textContent = on ? 'Exit selection' : 'Build a client link';
+    shareToggle.querySelector('span').textContent = on ? t('share.exit') : t('share.toggle');
     sharebar.classList.toggle('is-open', on);
     sharebar.setAttribute('aria-hidden', on ? 'false' : 'true');
     if (!on) {
@@ -492,9 +501,7 @@
       shareLink.value = url;
       shareCopy.disabled = false;
       copyText(url, function (ok) {
-        shareStatus.textContent = ok
-          ? 'Link ready — copied to clipboard. Send it to your client.'
-          : 'Link ready — copy it above and send it to your client.';
+        shareStatus.textContent = ok ? t('share.ready') : t('share.ready.manual');
       });
     });
   }
@@ -503,7 +510,7 @@
     shareCopy.addEventListener('click', function () {
       if (!shareLink.value) return;
       copyText(shareLink.value, function (ok) {
-        shareStatus.textContent = ok ? 'Copied to clipboard.' : 'Copy failed — select the link and copy manually.';
+        shareStatus.textContent = ok ? t('share.copied') : t('share.copyfail');
       });
     });
   }
@@ -621,7 +628,7 @@
           'Your browser does not support video playback.' +
           '</video>';
       } else {
-        lightboxMedia.innerHTML = '<span class="lightbox__demo">Preview unavailable</span>';
+        lightboxMedia.innerHTML = '<span class="lightbox__demo">' + t('lightbox.unavailable') + '</span>';
       }
     }
     lightbox.classList.add('is-open');
@@ -788,21 +795,21 @@
       var emailVal = emailEl ? emailEl.value.trim() : '';
 
       if (!nameEl || !nameEl.value.trim()) {
-        setStatus('Please enter your name.', 'error');
+        setStatus(t('form.val.name'), 'error');
         if (nameEl) nameEl.focus();
         return;
       }
       if (!emailVal || emailVal.indexOf('@') === -1 || emailVal.indexOf('.') === -1) {
-        setStatus('Please enter a valid email address.', 'error');
+        setStatus(t('form.val.email'), 'error');
         if (emailEl) emailEl.focus();
         return;
       }
       if (!subjectEl || !subjectEl.value) {
-        setStatus('Please select a subject.', 'error');
+        setStatus(t('form.val.subject'), 'error');
         return;
       }
       if (!messageEl || !messageEl.value.trim()) {
-        setStatus('Please tell me a few words about your project.', 'error');
+        setStatus(t('form.val.message'), 'error');
         if (messageEl) messageEl.focus();
         return;
       }
@@ -813,7 +820,7 @@
       }
 
       if (submitBtn) submitBtn.classList.add('is-loading');
-      setStatus('Sending…', 'success');
+      setStatus(t('form.sending'), 'success');
 
       fetch(contactForm.action, {
         method: 'POST',
@@ -826,19 +833,19 @@
             document.querySelectorAll('.custom-select').forEach(function (w) {
               if (w.__resync) w.__resync();
             });
-            setStatus('Thanks — your brief is on its way. I reply within 24 hours.', 'success');
+            setStatus(t('form.success'), 'success');
             setTimeout(closeContactModal, 2600);
           } else {
             return res.json().then(function (data) {
               var msg = data && data.errors
                 ? data.errors.map(function (err) { return err.message; }).join(', ')
-                : 'Something went wrong. Please email gsacreatives@gmail.com directly.';
+                : t('form.error.generic');
               setStatus(msg, 'error');
             });
           }
         })
         .catch(function () {
-          setStatus('Network error. Please email gsacreatives@gmail.com directly.', 'error');
+          setStatus(t('form.error.net'), 'error');
         })
         .finally(function () {
           if (submitBtn) submitBtn.classList.remove('is-loading');
@@ -868,6 +875,27 @@
       setMenu(false);
       if (state.selectMode) setSelectMode(false);
     }
+  });
+
+  /* =====================================================
+     Language switch refresh
+     ===================================================== */
+  window.addEventListener('gsa:lang', function () {
+    renderCurrent();
+    hideSuggestions();
+    if (shareToggle) {
+      var lbl = shareToggle.querySelector('span');
+      if (lbl) lbl.textContent = state.selectMode ? t('share.exit') : t('share.toggle');
+    }
+    document.querySelectorAll('.custom-select').forEach(function (w) {
+      var sel = w.querySelector('select');
+      if (!sel) return;
+      var btns = w.querySelectorAll('.custom-select__option');
+      for (var i = 0; i < btns.length && i < sel.options.length; i++) {
+        btns[i].firstChild.textContent = sel.options[i].textContent;
+      }
+      if (w.__resync) w.__resync();
+    });
   });
 
   /* =====================================================
