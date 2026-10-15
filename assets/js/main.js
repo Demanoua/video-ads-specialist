@@ -7,7 +7,7 @@
    - Client-link builder: select videos -> #selection=... slug
    - Hash routing (#selection=p1,p3 / #showreel=p5)
    - Showreel lightbox
-   - Collapsible contact form (Formspree AJAX)
+   - Contact form (Google Apps Script mail relay)
    - Dynamic footer year
    ========================================================= */
 (function () {
@@ -45,6 +45,57 @@
     ['', 'reel--wide', '', 'reel--lg', ''],
     ['reel--lg', '', 'reel--wide', '', '']
   ];
+
+  /* =====================================================
+     CMS OVERRIDES — managed via the admin page, stored in
+     THIS BROWSER's localStorage ('gsa_cms_v1') and layered
+     on top of the built-in catalog. A static host has no
+     database, so these apply per-browser; "Export" on the
+     admin page produces JSON to persist into the code.
+     Custom projects flow into the showreel, search,
+     selection links and lightbox like any other project.
+     ===================================================== */
+  var CMS_KEY = 'gsa_cms_v1';
+  function normalizeCms(d) {
+    var empty = { siteName: '', projects: [], testimonials: [] };
+    if (!d || typeof d !== 'object') return empty;
+    return {
+      siteName: typeof d.siteName === 'string' ? d.siteName : '',
+      projects: Array.isArray(d.projects) ? d.projects.filter(function (p) { return p && p.id && p.title && p.video; }) : [],
+      testimonials: Array.isArray(d.testimonials) ? d.testimonials.filter(function (t) { return t && t.name && t.text; }) : []
+    };
+  }
+  function loadCms() {
+    try { return normalizeCms(JSON.parse(localStorage.getItem(CMS_KEY))); } catch (e) { }
+    return normalizeCms(null);
+  }
+  function cmsHasContent(d) { return !!(d && (d.siteName || d.projects.length || d.testimonials.length)); }
+
+  var CMS = loadCms();
+  if (CMS.projects.length) PROJECTS = PROJECTS.concat(CMS.projects);
+
+  /* PUBLISHED CMS — assets/data/cms.json, committed to the repo by the
+     admin "Publish" button (via the relay) and therefore served to
+     EVERY visitor. A localStorage draft (this browser used the admin)
+     still wins, so the admin can preview unpublished edits.
+     Boot waits for this fetch, capped so first render never waits
+     more than ~2.5s. */
+  var remoteCmsReady = new Promise(function (resolve) {
+    var settled = false;
+    function done() { if (!settled) { settled = true; resolve(); } }
+    var timer = setTimeout(done, 2500);
+    fetch('assets/data/cms.json?v=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return (r.ok ? r.json() : null); })
+      .then(function (d) {
+        var remote = normalizeCms(d);
+        if (!cmsHasContent(remote) || cmsHasContent(CMS)) return; // local draft wins
+        CMS = remote;
+        if (CMS.projects.length) PROJECTS = PROJECTS.concat(CMS.projects);
+        applyCmsToDom();
+      })
+      .catch(function () { })
+      .then(function () { clearTimeout(timer); done(); });
+  });
 
   function byId(id) {
     for (var i = 0; i < PROJECTS.length; i++) if (PROJECTS[i].id === id) return PROJECTS[i];
@@ -125,6 +176,58 @@
     });
   }
   observeReveals(document);
+
+  /* =====================================================
+     CMS: apply custom site name + inject custom testimonials
+     (published cms.json or localStorage draft). Idempotent —
+     may run again if the published file arrives after first paint.
+     ===================================================== */
+  var cmsDomApplied = false;
+  function applyCmsToDom() {
+    if (CMS.siteName) {
+      document.querySelectorAll('[data-site-name]').forEach(function (el) { el.textContent = CMS.siteName; });
+      if (document.title.indexOf('GSA Creatives') !== -1) {
+        document.title = document.title.replace('GSA Creatives', CMS.siteName);
+      }
+    }
+    if (cmsDomApplied || !CMS.testimonials.length) return;
+    var grid = document.querySelector('.testimonials__grid');
+    if (!grid) return;
+    cmsDomApplied = true;
+    CMS.testimonials.forEach(function (tm) {
+      var fig = document.createElement('figure');
+      fig.className = 'quote reveal';
+      var bq = document.createElement('blockquote');
+      bq.textContent = tm.text;
+      fig.appendChild(bq);
+      var fc = document.createElement('figcaption');
+      if (tm.photo) {
+        var img = document.createElement('img');
+        img.src = tm.photo;
+        img.alt = tm.name + ' portrait';
+        fc.appendChild(img);
+      } else {
+        var av = document.createElement('span');
+        av.className = 'avatar';
+        av.setAttribute('aria-hidden', 'true');
+        av.textContent = tm.name.split(/\s+/).map(function (w) { return w.charAt(0); }).join('').slice(0, 2).toUpperCase();
+        fc.appendChild(av);
+      }
+      var who = document.createElement('div');
+      var strong = document.createElement('strong');
+      strong.textContent = tm.name;
+      who.appendChild(strong);
+      if (tm.role) {
+        var span = document.createElement('span');
+        span.textContent = tm.role;
+        who.appendChild(span);
+      }
+      fc.appendChild(who);
+      fig.appendChild(fc);
+      grid.appendChild(fig);
+    });
+    observeReveals(grid);
+  }
 
   /* =====================================================
      Showreel engine
@@ -741,7 +844,19 @@
   document.querySelectorAll('select[data-custom-select]').forEach(enhanceSelect);
 
   /* =====================================================
-     Contact modal + Formspree AJAX
+     MAIL — static hosting (GitHub Pages) cannot run PHP or
+     SMTP. ALL outgoing mail goes through the Google Apps
+     Script Web App (assets/mail-relay.gs) as gsacreatives@
+     gmail.com — except on localhost, where messages are
+     captured by Mailpit instead of being delivered.
+     Shared transport: window.gsaSendMail (defined in tracker.js,
+     which loads before this file).
+     NEVER put a Gmail/SMTP password in this repo: it is public.
+     ===================================================== */
+  var GSA_RELAY_ENDPOINT = window.GSA_RELAY_ENDPOINT || '';
+
+  /* =====================================================
+     Contact modal + mail AJAX (Google Apps Script relay)
      ===================================================== */
   var emailToggle = document.getElementById('emailToggle');
   var contactModal = document.getElementById('contactModal');
@@ -784,6 +899,15 @@
       formStatus.className = 'form-status is-visible is-' + type;
     }
 
+    function markSent() {
+      contactForm.reset();
+      document.querySelectorAll('.custom-select').forEach(function (w) {
+        if (w.__resync) w.__resync();
+      });
+      setStatus(t('form.success'), 'success');
+      setTimeout(closeContactModal, 20000);
+    }
+
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -814,35 +938,33 @@
         return;
       }
 
-      if (contactForm.action.indexOf('YOUR_FORM_ID') !== -1) {
-        setStatus('Form not connected yet — email gsacreatives@gmail.com directly.', 'error');
+      if (!window.GSA_IS_LOCAL && !GSA_RELAY_ENDPOINT) {
+        setStatus('Relay not configured — deploy assets/mail-relay.gs and set GSA_RELAY_ENDPOINT in assets/js/tracker.js.', 'error');
         return;
       }
 
+      /* Single transport (window.gsaSendMail, defined in tracker.js):
+         local → captured by Mailpit, nothing leaves the machine;
+         production → Apps Script relay, sent AS gsacreatives@gmail.com
+         with Reply-To = the visitor's email. */
+      var briefName = nameEl.value.trim();
+      var briefMessage = messageEl.value.trim();
       if (submitBtn) submitBtn.classList.add('is-loading');
       setStatus(t('form.sending'), 'success');
-
-      fetch(contactForm.action, {
-        method: 'POST',
-        body: new FormData(contactForm),
-        headers: { Accept: 'application/json' }
-      })
+      window.gsaSendMail(
+        {
+          from: emailVal,
+          fromName: briefName,
+          to: 'gsacreatives@gmail.com',
+          subject: '[GSA Portfolio] ' + subjectEl.value + ' — ' + briefName,
+          text: 'Nom: ' + briefName + '\nEmail: ' + emailVal + '\nSujet: ' + subjectEl.value + '\n\nMessage:\n' + briefMessage
+        },
+        { name: briefName, email: emailVal, subject: subjectEl.value, message: briefMessage }
+      )
         .then(function (res) {
-          if (res.ok) {
-            contactForm.reset();
-            document.querySelectorAll('.custom-select').forEach(function (w) {
-              if (w.__resync) w.__resync();
-            });
-            setStatus(t('form.success'), 'success');
-            setTimeout(closeContactModal, 2600);
-          } else {
-            return res.json().then(function (data) {
-              var msg = data && data.errors
-                ? data.errors.map(function (err) { return err.message; }).join(', ')
-                : t('form.error.generic');
-              setStatus(msg, 'error');
-            });
-          }
+          /* local CORS mode: a 4xx/5xx from Mailpit must not show success */
+          if (window.GSA_IS_LOCAL && res && !res.ok) throw new Error('mailpit rejected the message');
+          markSent();
         })
         .catch(function () {
           setStatus(t('form.error.net'), 'error');
@@ -899,12 +1021,16 @@
   });
 
   /* =====================================================
-     Boot: hash route first, otherwise the random five
+     Boot: wait for the published CMS (capped ~2.5s), then
+     hash route first, otherwise the random five
      ===================================================== */
-  if (window.location.hash && (window.location.hash.indexOf('#selection=') === 0 ||
-      window.location.hash.indexOf('#showreel=') === 0)) {
-    handleHash();
-  } else {
-    renderCurrent();
-  }
+  remoteCmsReady.then(function () {
+    applyCmsToDom();
+    if (window.location.hash && (window.location.hash.indexOf('#selection=') === 0 ||
+        window.location.hash.indexOf('#showreel=') === 0)) {
+      handleHash();
+    } else {
+      renderCurrent();
+    }
+  });
 })();

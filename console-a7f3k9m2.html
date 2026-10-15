@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#050505" />
+  <title>GSA Admin — Visitor Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .admin { padding-block: 2rem 4rem; }
+    .admin__head {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 1rem; margin-bottom: 1.6rem;
+    }
+    .admin__head h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+    .admin__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.6rem; }
+    .stats > div {
+      padding: 1.1rem 1.2rem; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      display: flex; flex-direction: column; gap: 0.2rem;
+    }
+    .stats strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--brand); letter-spacing: -0.02em; }
+    .stats span { font-size: 0.72rem; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 860px; }
+    th, td { padding: 0.7rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th { color: var(--text-2); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; background: var(--bg); }
+    tbody tr { cursor: pointer; transition: background var(--transition); }
+    tbody tr:hover { background: rgba(204, 255, 0, 0.05); }
+    .pill { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.72rem; border: 1px solid var(--border); }
+    .pill--ok { color: var(--brand); border-color: rgba(204,255,0,0.4); }
+    .pill--off { color: var(--text-2); }
+    .detail {
+      margin-top: 1.2rem; padding: 1.4rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      display: none;
+    }
+    .detail.is-open { display: block; }
+    .detail h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+    .detail dl { display: grid; grid-template-columns: 140px 1fr; gap: 0.35rem 1rem; margin: 0 0 1.2rem; font-size: 0.85rem; }
+    .detail dt { color: var(--text-2); }
+    .detail dd { margin: 0; word-break: break-all; }
+    .detail h3 { font-size: 1rem; margin: 1.2rem 0 0.6rem; color: var(--brand); }
+    .evlog { max-height: 320px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+    .evlog div { display: flex; gap: 0.8rem; padding: 0.45rem 0.8rem; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+    .evlog div:last-child { border-bottom: 0; }
+    .evlog time { color: var(--muted); flex-shrink: 0; }
+    .evlog code { color: var(--text-2); word-break: break-all; }
+    .empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-2); }
+    @media (min-width: 900px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+    /* ---- CMS ---- */
+    .cms { margin-top: 2.5rem; padding-top: 1.8rem; border-top: 1px solid var(--border); }
+    .cms__head { margin-bottom: 1rem; }
+    .cms__head h2 { font-size: 1.3rem; }
+    .cms__head p { margin: 0.35rem 0 0; color: var(--text-2); font-size: 0.85rem; max-width: 72ch; }
+    .cms__flash { margin: 0.8rem 0 1rem; min-height: 1.2em; font-size: 0.85rem; color: var(--text-2); }
+    .cms__flash.is-ok { color: var(--brand); }
+    .cms__flash.is-err { color: #ff6b57; }
+    .cms__grid { display: grid; gap: 1.2rem; }
+    .cms__panel { padding: 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .cms__panel h3 { font-size: 1.05rem; margin-bottom: 0.9rem; color: var(--brand); }
+    .cms__panel .form-group { margin-bottom: 0.8rem; }
+    .cms__panel input[type="file"] { font-size: 0.8rem; color: var(--text-2); }
+    .cms__row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+    .cms__list { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .cms__list li { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 0.7rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.85rem; }
+    .cms__list li > div { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .cms__list li span { color: var(--text-2); font-size: 0.75rem; word-break: break-all; }
+    .cms__thumb { width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; font-weight: 700; color: var(--brand); }
+    .cms__thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .cms__empty { color: var(--text-2); justify-content: center; }
+    @media (min-width: 1000px) { .cms__grid { grid-template-columns: repeat(3, 1fr); align-items: start; } }
+  </style>
+</head>
+
+<body>
+
+  <!-- Dashboard (no password gate — a static host has no real auth;
+       this page is simply not linked from the public site) -->
+  <div class="admin" id="dash" data-testid="admin-dashboard">
+    <div class="container">
+      <div class="admin__head">
+        <div>
+          <span class="eyebrow">GSA Creatives · Private</span>
+          <h1>Visitor Analytics</h1>
+        </div>
+        <div class="admin__actions">
+          <button class="btn btn--ghost btn--sm" id="refreshBtn" type="button">Refresh</button>
+          <button class="btn btn--ghost btn--sm" id="exportBtn" type="button">Export JSON</button>
+          <button class="btn btn--ghost btn--sm" id="clearBtn" type="button">Clear data</button>
+        </div>
+      </div>
+
+      <div class="stats" id="statCards"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Location</th>
+              <th>IP</th>
+              <th>Device</th>
+              <th>Lang</th>
+              <th>Videos</th>
+              <th>Watch time</th>
+              <th>Actions</th>
+              <th>Report</th>
+            </tr>
+          </thead>
+          <tbody id="visitsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="detail" id="detail"></div>
+
+      <!-- ============== CMS : site content ============== -->
+      <section class="cms" id="cms" data-testid="admin-cms">
+        <div class="cms__head">
+          <span class="eyebrow">Site content</span>
+          <h2>Manage the portfolio</h2>
+          <p>Changes are saved in <strong>this browser</strong> (localStorage) and apply to the homepage immediately —
+            a static site has no database. Visitors on other devices will not see them until they are coded in;
+            use <em>Export JSON</em> to keep a backup or to persist changes into the code (send the file to your
+            developer).</p>
+        </div>
+        <p class="cms__flash" id="cmsFlash" role="status" aria-live="polite"></p>
+
+        <div class="cms__grid">
+          <div class="cms__panel" data-testid="cms-settings">
+            <h3>1 · Site name</h3>
+            <div class="form-group">
+              <label class="form-label" for="cmsSiteName">Portfolio name</label>
+              <input class="form-input" id="cmsSiteName" type="text" placeholder="GSA Creatives" />
+            </div>
+            <button class="btn btn--primary btn--sm" id="cmsSiteSave" type="button">Save name</button>
+          </div>
+
+          <div class="cms__panel" data-testid="cms-projects">
+            <h3>2 · Projects</h3>
+            <form id="projForm">
+              <div class="form-group"><label class="form-label" for="cf-p-title">Title *</label>
+                <input class="form-input" id="cf-p-title" type="text" required /></div>
+              <div class="form-group"><label class="form-label" for="cf-p-tag">Tag / category</label>
+                <input class="form-input" id="cf-p-tag" type="text" placeholder="E-commerce · TikTok" /></div>
+              <div class="form-group"><label class="form-label" for="cf-p-img-url">Image URL</label>
+                <input class="form-input" id="cf-p-img-url" type="url" placeholder="https://… (or upload below)" /></div>
+              <div class="form-group"><label class="form-label" for="cf-p-img-file">…or upload image (max 1.5 MB)</label>
+                <input id="cf-p-img-file" type="file" accept="image/*" /></div>
+              <div class="form-group"><label class="form-label" for="cf-p-vid-url">Video URL (direct .mp4) *</label>
+                <input class="form-input" id="cf-p-vid-url" type="url" placeholder="https://…/ad.mp4" /></div>
+              <div class="form-group"><label class="form-label" for="cf-p-vid-file">…or upload video (max 3 MB — a direct URL is better)</label>
+                <input id="cf-p-vid-file" type="file" accept="video/*" /></div>
+              <button class="btn btn--primary btn--sm" type="submit">Add project</button>
+            </form>
+            <ul class="cms__list" id="projList"></ul>
+          </div>
+
+          <div class="cms__panel" data-testid="cms-testimonials">
+            <h3>3 · Testimonials</h3>
+            <form id="tmnForm">
+              <div class="form-group"><label class="form-label" for="cf-t-name">Client name *</label>
+                <input class="form-input" id="cf-t-name" type="text" required /></div>
+              <div class="form-group"><label class="form-label" for="cf-t-role">Role · company</label>
+                <input class="form-input" id="cf-t-role" type="text" placeholder="CEO · Northwave" /></div>
+              <div class="form-group"><label class="form-label" for="cf-t-text">Testimonial *</label>
+                <textarea class="form-input" id="cf-t-text" rows="4" required></textarea></div>
+              <div class="form-group"><label class="form-label" for="cf-t-photo">Photo URL (optional)</label>
+                <input class="form-input" id="cf-t-photo" type="url" placeholder="https://… (avatar initials used if empty)" /></div>
+              <button class="btn btn--primary btn--sm" type="submit">Add testimonial</button>
+            </form>
+            <ul class="cms__list" id="tmnList"></ul>
+          </div>
+          <div class="cms__panel" data-testid="cms-publish">
+            <h3>4 · Publish to the site</h3>
+            <p style="margin:0 0 0.9rem;color:var(--text-2);font-size:0.8rem">Commits your changes
+              (<code>assets/data/cms.json</code>) to the GitHub repo via the relay — GitHub Pages rebuilds in
+              ~1 minute and <strong>every visitor</strong> sees them. Setup once: 5 Script Properties in the
+              Apps Script project (see <code>assets/mail-relay.gs</code> header). In local dev, the push is
+              captured by Mailpit instead — your repo is untouched.</p>
+            <div class="form-group"><label class="form-label" for="cmsPubKey">Publish key</label>
+              <input class="form-input" id="cmsPubKey" type="password" autocomplete="off"
+                placeholder="GSA_PUBLISH_KEY from the Apps Script project" /></div>
+            <button class="btn btn--primary btn--sm" id="cmsPublish" type="button">Publish to site</button>
+          </div>
+        </div>
+
+        <div class="cms__row" style="margin-top:1.2rem">
+          <button class="btn btn--ghost btn--sm" id="cmsExport" type="button">Export JSON</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="assets/js/admin.js" defer></script>
+  <script src="assets/js/admin-cms.js" defer></script>
+</body>
+
+</html>
