@@ -1,68 +1,14 @@
 /* =========================================================
    GSA CREATIVES — Admin dashboard
    Reads 'gsa_analytics_v1' written by tracker.js.
-   Gate: SHA-256 password check (client-side obfuscation only
-   — a static host has no real auth; keep this URL private).
-   Default password: gsa2025 — to change it, replace
-   ADMIN_HASH with sha256 hex of your new password.
+   No password gate: a static host has no real auth, so this
+   page is simply not linked from the public site. Keep the
+   URL private.
    ========================================================= */
 (function () {
   'use strict';
 
-  var ADMIN_HASH = '945f8230fcba044c28541b38fcca399cdb11885addef3d485c5620b812c9d812'; // sha256('gsa2025')
   var KEY = 'gsa_analytics_v1';
-  var UNLOCK_KEY = 'gsa_admin_unlocked';
-
-  var gate = document.getElementById('gate');
-  var dash = document.getElementById('dash');
-  var passEl = document.getElementById('adminPass');
-  var gateMsg = document.getElementById('gateMsg');
-
-  function sha256(text) {
-    if (!window.crypto || !crypto.subtle) return Promise.resolve(null);
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)).then(function (buf) {
-      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
-        return ('0' + b.toString(16)).slice(-2);
-      }).join('');
-    });
-  }
-
-  function unlock() {
-    gate.hidden = true;
-    dash.hidden = false;
-    try { sessionStorage.setItem(UNLOCK_KEY, '1'); } catch (e) { }
-    render();
-  }
-  function lock() {
-    dash.hidden = true;
-    gate.hidden = false;
-    try { sessionStorage.removeItem(UNLOCK_KEY); } catch (e) { }
-    if (passEl) passEl.value = '';
-  }
-
-  function tryUnlock() {
-    var val = passEl ? passEl.value : '';
-    if (!val) { gateMsg.textContent = 'Enter your password.'; return; }
-    sha256(val).then(function (hash) {
-      if (hash && hash === ADMIN_HASH) {
-        gateMsg.textContent = '';
-        unlock();
-      } else {
-        gateMsg.textContent = 'Wrong password.';
-      }
-    });
-  }
-
-  var unlockBtn = document.getElementById('unlockBtn');
-  if (unlockBtn) unlockBtn.addEventListener('click', tryUnlock);
-  if (passEl) passEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryUnlock(); });
-
-  var lockBtn = document.getElementById('lockBtn');
-  if (lockBtn) lockBtn.addEventListener('click', lock);
-
-  try {
-    if (sessionStorage.getItem(UNLOCK_KEY) === '1') { gate.hidden = true; dash.hidden = false; }
-  } catch (e) { }
 
   /* ---------------- Data ---------------- */
   function load() {
@@ -238,5 +184,5 @@
     render();
   });
 
-  if (!dash.hidden) render();
+  render();
 })();
