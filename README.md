@@ -8,3 +8,5 @@ git rm --cached <nom_du_fichier>
 git rm --cached <nom_du_fichier>
 
 git rm -r --cached RAW/
+
+git commit -m "For kimi"
