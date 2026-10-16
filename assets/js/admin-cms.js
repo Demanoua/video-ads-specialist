@@ -239,13 +239,21 @@
     try { pubKeyInput.value = localStorage.getItem(PUBKEY_KEY) || ''; } catch (e) { }
   }
   var pubBtn = $('cmsPublish');
+  var pubStatus = $('pubStatus');
+  function pubFlash(msg, kind) {
+    if (pubStatus) {
+      pubStatus.textContent = msg;
+      pubStatus.className = 'cms__flash is-' + (kind || 'ok');
+    }
+    flash(msg, kind);
+  }
   if (pubBtn) pubBtn.addEventListener('click', function () {
     var key = pubKeyInput ? pubKeyInput.value.trim() : '';
-    if (!key) { flash('Enter your publish key first (GSA_PUBLISH_KEY in the Apps Script project).', 'err'); return; }
+    if (!key) { pubFlash('Enter your publish key first (GSA_PUBLISH_KEY in the Apps Script project).', 'err'); return; }
     try { localStorage.setItem(PUBKEY_KEY, key); } catch (e) { }
     var d = load();
     if (!d.siteName && !d.projects.length && !d.testimonials.length) {
-      flash('Nothing to publish yet.', 'err');
+      pubFlash('Nothing to publish yet — first add a project, a testimonial or a site name (panels 1-3).', 'err');
       return;
     }
     var target, body;
@@ -261,9 +269,9 @@
       target = window.GSA_RELAY_ENDPOINT;
       body = JSON.stringify({ type: 'cms_push', key: key, cms: d });
     }
-    if (!target) { flash('Relay URL missing (GSA_RELAY_ENDPOINT in assets/js/tracker.js).', 'err'); return; }
+    if (!target) { pubFlash('Relay URL missing (GSA_RELAY_ENDPOINT in assets/js/tracker.js).', 'err'); return; }
     pubBtn.classList.add('is-loading');
-    flash(window.GSA_IS_LOCAL ? 'Capturing in Mailpit (repo untouched)…' : 'Publishing…', 'ok');
+    pubFlash(window.GSA_IS_LOCAL ? 'Capturing in Mailpit (repo untouched)…' : 'Publishing…', 'ok');
     var fetchOpts = {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -273,12 +281,12 @@
     fetch(target, fetchOpts)
       .then(function (res) {
         if (window.GSA_IS_LOCAL && res && !res.ok) throw new Error('mailpit rejected the push');
-        flash(window.GSA_IS_LOCAL
+        pubFlash(window.GSA_IS_LOCAL
           ? 'Local test OK — captured by Mailpit. In production this commits cms.json; Pages rebuilds in ~1 min.'
           : 'Publish sent — GitHub Pages rebuilds in ~1 minute. Hard-reload the homepage to see it live for everyone.', 'ok');
       })
       .catch(function () {
-        flash(window.GSA_IS_LOCAL
+        pubFlash(window.GSA_IS_LOCAL
           ? 'Local capture failed — is Mailpit running with --api-cors?'
           : 'Publish failed — network error.', 'err');
       })
