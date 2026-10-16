@@ -12,7 +12,7 @@
    ========================================================= */
 
 /* ---- Relay endpoint (/exec URL of your Apps Script Web App) ---- */
-window.GSA_RELAY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzQHW_9XUpWJ5mfspPwZbFVRNvZs48Azu33gCy5W99aC0HqVSgjSorHGKJfR0VPUaFV/exec';
+window.GSA_RELAY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxgAGuQovEaknrXw7J8n6NHShF5ZFjQFifDimXMA8c0OKiia7lHuvymGaJFxTNrGTX9/exec';
 
 /* ---- Local testing intercept (Mailpit) ----
    When the site runs from localhost / 127.0.0.1 (or file://), NOTHING
