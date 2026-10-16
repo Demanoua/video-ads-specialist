@@ -849,8 +849,8 @@
      Script Web App (assets/mail-relay.gs) as gsacreatives@
      gmail.com — except on localhost, where messages are
      captured by Mailpit instead of being delivered.
-     Shared transport: window.gsaSendMail (defined in tracker.js,
-     which loads before this file).
+     Shared transport: window.gsaSendMail (defined in assets/js/
+     gsa-config.js, loaded before this file).
      NEVER put a Gmail/SMTP password in this repo: it is public.
      ===================================================== */
   var GSA_RELAY_ENDPOINT = window.GSA_RELAY_ENDPOINT || '';
