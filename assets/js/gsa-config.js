@@ -60,3 +60,62 @@ window.gsaSendMail = function (msg, remote, keepalive) {
   opts.mode = 'no-cors';
   return fetch(window.GSA_RELAY_ENDPOINT, opts);
 };
+
+/* CMS publish transport — REAL result via hidden iframe + postMessage.
+   Apps Script sends no CORS headers, so fetch() cannot read the response
+   (gsaSendMail above is therefore fire-and-forget in production). A plain
+   form POST needs no CORS: the relay answers with a tiny HTML page that
+   postMessages the result back. Used by admin-cms.js "Publish to site" so
+   a wrong key or a GitHub rejection is shown instead of a fake success.
+
+   payload : must contain receipt:true (the relay then answers with the
+             receipt page instead of JSON) and is sent as the single form
+             field "payload".
+   Returns a Promise resolving with the relay's result object
+   ({ok:true} | {ok:false,error,detail?}) and rejecting on timeout
+   (relay unreachable / network down). A unique rid per call prevents a
+   receipt from one publish from resolving another. */
+window.gsaRelayPost = function (payload, timeoutMs) {
+  return new Promise(function (resolve, reject) {
+    var endpoint = window.GSA_RELAY_ENDPOINT;
+    if (!endpoint) { reject(new Error('relay_not_configured')); return; }
+    var rid = 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    var iframe = document.createElement('iframe');
+    iframe.name = rid; // form target
+    iframe.style.display = 'none';
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = endpoint;
+    form.target = rid;
+    form.style.display = 'none';
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    payload.rid = rid; // echoed back inside the receipt, for matching
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+    function cleanup() {
+      window.removeEventListener('message', onMessage);
+      clearTimeout(timer);
+      if (form.parentNode) form.parentNode.removeChild(form);
+      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    }
+    function onMessage(e) {
+      var d = e && e.data;
+      if (!d || d.gsa !== 'gsa-relay-receipt' || d.rid !== rid) return;
+      var origin = String(e.origin || '');
+      if (origin.indexOf('googleusercontent.com') === -1 &&
+          origin.indexOf('script.google.com') === -1) return;
+      cleanup();
+      resolve(d.result);
+    }
+    var timer = setTimeout(function () {
+      cleanup();
+      reject(new Error('relay_timeout'));
+    }, timeoutMs || 30000);
+    window.addEventListener('message', onMessage);
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+  });
+};

@@ -10,6 +10,12 @@
  *                 GitHub (API Contents). Le navigateur ne détient
  *                 AUCUN secret : le token GitHub vit dans les
  *                 Script Properties (chiffrées côté Google).
+ *                 Si le payload contient receipt:true, le relais ne
+ *                 renvoie pas du JSON (illisible cross-origin à cause
+ *                 du CORS) mais une page HTML qui postMessage le résultat
+ *                 à la console admin (gsaRelayPost côté client) : la
+ *                 publication affiche alors le VRAI résultat — clé
+ *                 fausse, GitHub qui rejette, ou succès.
  *
  *  CONFIGURATION (Script Properties — ⚙️ Paramètres du projet) :
  *    GITHUB_TOKEN      token GitHub fine-grained, portée « Contents :
@@ -37,12 +43,20 @@ function doPost(e) {
   try { lock.tryLock(10000); } catch (err) { }
 
   try {
-    var p = JSON.parse(e.postData.contents);
+    // Deux transporteurs arrivent ici :
+    //  - fetch (gsaSendMail) → corps brut en JSON ;
+    //  - formulaire iframe (gsaRelayPost, publication CMS avec reçu)
+    //    → corps urlencodé, Apps Script décode déjà le champ "payload".
+    var raw = (e.parameter && e.parameter.payload) ? e.parameter.payload : e.postData.contents;
+    var p = JSON.parse(raw);
     Logger.log('doPost received, type=%s', p.type || 'brief');
 
     // Type 3 : publication CMS → commit dans le dépôt GitHub
     if (p.type === 'cms_push') {
-      return gsaJson(handleCmsPush(p));
+      var cmsResult = handleCmsPush(p);
+      // reçu demandé → page HTML qui postMessage le résultat au parent
+      if (p.receipt) return gsaReceiptPage(cmsResult, p.rid);
+      return gsaJson(cmsResult);
     }
 
     // Type 2 : rapport de visite (analytics)
@@ -218,4 +232,23 @@ function gsaJson(o) {
   return ContentService
     .createTextOutput(JSON.stringify(o))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/* Reçu de publication (publication CMS avec receipt:true) : petite page
+   HTML chargée dans l'iframe caché de gsaRelayPost. Le seul travail de
+   cette page est de postMessage le résultat à la console admin — le
+   postMessage est autorisé cross-origin, contraire à la lecture d'une
+   réponse fetch. Le '<' du JSON est échappé pour qu'un message GitHub
+   ne puisse pas fermer la balise <script>. Aucun secret dans ce reçu :
+   seulement {ok, error?, detail?}. */
+function gsaReceiptPage(o, rid) {
+  var json = JSON.stringify(o).replace(/</g, '\\u003c');
+  var idJson = JSON.stringify(rid == null ? null : String(rid)).replace(/</g, '\\u003c');
+  var html =
+    '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' +
+    '<script>window.parent.postMessage({gsa:"gsa-relay-receipt",rid:' + idJson +
+    ',result:' + json + '},"*");</scr' + 'ipt>' +
+    '</body></html>';
+  return ContentService.createTextOutput(html)
+    .setMimeType(ContentService.MimeType.HTML);
 }

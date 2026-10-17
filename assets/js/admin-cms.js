@@ -232,7 +232,10 @@
   /* ---------------- Publish to the site (commit cms.json to git) ----------------
      Local → the push is CAPTURED by Mailpit, the repo is untouched.
      Production → the relay commits assets/data/cms.json to the repo;
-     GitHub Pages rebuilds (~1 min) and every visitor sees the change. */
+     GitHub Pages rebuilds (~1 min) and every visitor sees the change.
+     The real relay result comes back via gsaRelayPost (iframe form POST +
+     postMessage receipt) — a wrong key or a GitHub rejection is shown
+     as an error instead of a fake success. */
   var PUBKEY_KEY = 'gsa_pub_key';
   var pubKeyInput = $('cmsPubKey');
   if (pubKeyInput) {
@@ -265,30 +268,48 @@
         Subject: '[CMS push — local test] assets/data/cms.json',
         Text: JSON.stringify(d, null, 2)
       });
-    } else {
-      target = window.GSA_RELAY_ENDPOINT;
-      body = JSON.stringify({ type: 'cms_push', key: key, cms: d });
+      if (!target) { pubFlash('Local mail API missing (GSA_LOCAL_MAIL_API in assets/js/gsa-config.js).', 'err'); return; }
+      pubBtn.classList.add('is-loading');
+      pubFlash('Capturing in Mailpit (repo untouched)…', 'ok');
+      fetch(target, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: body
+      })
+        .then(function (res) {
+          if (res && !res.ok) throw new Error('mailpit rejected the push');
+          pubFlash('Local test OK — captured by Mailpit. In production this commits cms.json; Pages rebuilds in ~1 min.', 'ok');
+        })
+        .catch(function () {
+          pubFlash('Local capture failed — is Mailpit running with --api-cors?', 'err');
+        })
+        .finally(function () { pubBtn.classList.remove('is-loading'); });
+      return;
     }
-    if (!target) { pubFlash('Relay URL missing (GSA_RELAY_ENDPOINT in assets/js/tracker.js).', 'err'); return; }
+    if (!window.GSA_RELAY_ENDPOINT) { pubFlash('Relay URL missing (GSA_RELAY_ENDPOINT in assets/js/gsa-config.js).', 'err'); return; }
+    if (typeof window.gsaRelayPost !== 'function') { pubFlash('Relay transport missing (assets/js/gsa-config.js not loaded?).', 'err'); return; }
     pubBtn.classList.add('is-loading');
-    pubFlash(window.GSA_IS_LOCAL ? 'Capturing in Mailpit (repo untouched)…' : 'Publishing…', 'ok');
-    var fetchOpts = {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: body
-    };
-    if (!window.GSA_IS_LOCAL) fetchOpts.mode = 'no-cors'; // local: CORS mode to read the result
-    fetch(target, fetchOpts)
-      .then(function (res) {
-        if (window.GSA_IS_LOCAL && res && !res.ok) throw new Error('mailpit rejected the push');
-        pubFlash(window.GSA_IS_LOCAL
-          ? 'Local test OK — captured by Mailpit. In production this commits cms.json; Pages rebuilds in ~1 min.'
-          : 'Publish sent — GitHub Pages rebuilds in ~1 minute. Hard-reload the homepage to see it live for everyone.', 'ok');
+    pubFlash('Publishing…', 'ok');
+    window.gsaRelayPost({ type: 'cms_push', key: key, cms: d, receipt: true }, 30000)
+      .then(function (r) {
+        if (r && r.ok) {
+          pubFlash('Publish sent — GitHub Pages rebuilds in ~1 minute. Hard-reload the homepage to see it live for everyone.', 'ok');
+        } else if (r && r.error === 'bad_publish_key') {
+          pubFlash('Publish failed — wrong publish key.', 'err');
+        } else if (r && r.error === 'github_not_configured') {
+          pubFlash('Publish failed — relay misconfigured (GITHUB_TOKEN / GITHUB_REPO missing in Apps Script properties).', 'err');
+        } else if (r && r.error === 'missing_cms') {
+          pubFlash('Publish failed — the relay received no CMS data.', 'err');
+        } else if (r && /^github_http_/.test(r.error)) {
+          pubFlash('Publish failed — GitHub rejected the commit (' +
+            r.error.replace('github_http_', 'HTTP ') +
+            (r.detail ? '): ' + r.detail : ').'), 'err');
+        } else {
+          pubFlash('Publish failed — unexpected relay response.', 'err');
+        }
       })
       .catch(function () {
-        pubFlash(window.GSA_IS_LOCAL
-          ? 'Local capture failed — is Mailpit running with --api-cors?'
-          : 'Publish failed — network error.', 'err');
+        pubFlash('Publish failed — network error or relay unreachable (30 s timeout).', 'err');
       })
       .finally(function () { pubBtn.classList.remove('is-loading'); });
   });
