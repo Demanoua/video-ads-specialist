@@ -1,5 +1,5 @@
 /* =========================================================
-   GSA CREATIVES — Shared relay config + transport
+   LIFESCHÉDIO — Shared relay config + transport
    Loaded by BOTH index.html and the admin console, BEFORE
    tracker.js / main.js / admin-cms.js.
 
@@ -48,7 +48,7 @@ window.gsaSendMail = function (msg, remote, keepalive) {
   };
   if (window.GSA_IS_LOCAL) {
     opts.body = JSON.stringify({
-      From: { Email: msg.from, Name: msg.fromName || 'Portfolio GSA (local)' },
+      From: { Email: msg.from, Name: msg.fromName || 'LifeSchédio (local)' },
       To: [{ Email: msg.to }],
       Subject: msg.subject,
       Text: msg.text

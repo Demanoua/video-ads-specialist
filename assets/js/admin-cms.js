@@ -1,10 +1,12 @@
 /* =========================================================
-   GSA CREATIVES — Admin CMS (site content manager)
+   LIFESCHÉDIO — Admin CMS (site content manager)
    Stores overrides in localStorage ('gsa_cms_v1'), read by
    main.js on the homepage: site name, extra projects,
    extra testimonials.
    Per-browser by design (static host = no database).
    Use "Export JSON" to persist changes into the code.
+   The page is locked by an email-code gate: lists only
+   render once 'ls:admin-unlock' has fired (admin-auth.js).
    ========================================================= */
 (function () {
   'use strict';
@@ -263,7 +265,7 @@
     if (window.GSA_IS_LOCAL) {
       target = window.GSA_LOCAL_MAIL_API;
       body = JSON.stringify({
-        From: { Email: 'cms@gsa-creatives.local', Name: 'CMS Publish (local test)' },
+        From: { Email: 'cms@lifeschedio.local', Name: 'CMS Publish (local test)' },
         To: [{ Email: 'gsacreatives@gmail.com' }],
         Subject: '[CMS push — local test] assets/data/cms.json',
         Text: JSON.stringify(d, null, 2)
@@ -315,5 +317,8 @@
   });
 
   function renderAll() { renderProjects(); renderTmn(); }
-  renderAll();
+  function boot() { renderAll(); }
+  var dashEl = $('dash');
+  if (window.LS_ADMIN_UNLOCKED || (dashEl && !dashEl.hidden)) boot();
+  else window.addEventListener('ls:admin-unlock', boot, { once: true });
 })();

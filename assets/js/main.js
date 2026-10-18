@@ -1,5 +1,5 @@
 /* =========================================================
-   GSA CREATIVES — Portfolio · Vanilla JS
+   LIFESCHÉDIO — Portfolio · Vanilla JS
    - Mobile menu toggle (+ auto-close on desktop resize)
    - IntersectionObserver reveal
    - Showreel engine: random 5 tiles, random layout per load
@@ -186,8 +186,8 @@
   function applyCmsToDom() {
     if (CMS.siteName) {
       document.querySelectorAll('[data-site-name]').forEach(function (el) { el.textContent = CMS.siteName; });
-      if (document.title.indexOf('GSA Creatives') !== -1) {
-        document.title = document.title.replace('GSA Creatives', CMS.siteName);
+      if (document.title.indexOf('LifeSchédio') !== -1) {
+        document.title = document.title.replace('LifeSchédio', CMS.siteName);
       }
     }
     if (cmsDomApplied || !CMS.testimonials.length) return;

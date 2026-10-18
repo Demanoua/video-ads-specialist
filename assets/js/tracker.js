@@ -1,5 +1,5 @@
 /* =========================================================
-   GSA CREATIVES — Analytics tracker (100% client-side)
+   LIFESCHÉDIO — Analytics tracker (100% client-side)
    Records every visit + action in localStorage
    ('gsa_analytics_v1') and optionally emails one session
    report per visit to the owner via window.gsaSendMail
@@ -201,10 +201,10 @@
     safe(function () {
       window.gsaSendMail(
         {
-          from: 'monitoring@gsa-creatives.local',
-          fromName: 'Monitoring Portfolio GSA (local)',
+          from: 'monitoring@lifeschedio.local',
+          fromName: 'Monitoring LifeSchédio (local)',
           to: 'gsacreatives@gmail.com',
-          subject: '[GSA Analytics] Visite — ' + (session.geo || session.ip || session.device.type) + ' — ' + session.startedAt,
+          subject: '[LifeSchédio] Visite — ' + (session.geo || session.ip || session.device.type) + ' — ' + session.startedAt,
           text: JSON.stringify(summary, null, 2)
         },
         { type: 'analytics', session: summary },

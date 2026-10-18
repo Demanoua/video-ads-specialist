@@ -1,5 +1,5 @@
 /* =========================================================
-   GSA CREATIVES — i18n (EN default · FR · ES · AR + RTL)
+   LIFESCHÉDIO — i18n (EN default · FR · ES · AR + RTL)
    Dictionary + selector map. Exposes window.GSA_I18N.
    Applies data-* attributes, persists choice, dispatches
    window event 'gsa:lang' (detail.lang) after applying.
@@ -73,12 +73,12 @@
       'r1': 'Creative Director · Aurora Apparel', 'r2': 'CEO · Northwave', 'r3': 'Founder · Double Root Coffee', 'r4': 'Head of Growth · Pulse',
 
       'about.eyebrow': '06 — Who we are',
-      'about.title': 'We are <span class="about__name">GSA Creatives.</span>',
-      'about.p1': 'GSA Creatives is a video ads studio built for one thing: <strong>turning scrollers into buyers</strong>. We engineer TikTok, Meta &amp; YouTube Shorts creatives like funnels — a hook in the first 3 seconds, pacing that holds attention, and a CTA that closes.',
+      'about.title': 'We are <span class="about__name">LifeSchédio.</span>',
+      'about.p1': 'LifeSchédio is a video ads studio built for one thing: <strong>turning scrollers into buyers</strong>. We engineer TikTok, Meta &amp; YouTube Shorts creatives like funnels — a hook in the first 3 seconds, pacing that holds attention, and a CTA that closes.',
       'about.p2': 'Behind every cut is a direct-response system: consumer psychology, systematic hook testing, and read-outs on Hook Rate, Hold Rate, CTR and ROAS. We ship first cuts in <strong>24–48 hours</strong>, then iterate on performance data until the ad wins.',
       'about.p3': 'From e-commerce and lifestyle brands to SaaS demos and TV spots, our work runs in <strong>9:16 feeds</strong> and on <strong>big screens</strong> across Africa, Europe and North America. Every client leaves with something they can show — and numbers to back it up.',
       'about.li1': 'Social Media Video Ads', 'about.li2': 'SaaS &amp; App Demos', 'about.li3': 'UGC &amp; Direct Response', 'about.li4': 'Motion Graphics &amp; Captions',
-      'about.card.name': 'GSA Creatives', 'about.card.tag': 'Video ads engineered to convert',
+      'about.card.name': 'LifeSchédio', 'about.card.tag': 'Video ads engineered to convert',
       'about.stat1v': '180+', 'about.stat1l': 'ads shipped', 'about.stat2v': '4.3×', 'about.stat2l': 'avg. ROAS', 'about.stat3v': '24–48h', 'about.stat3l': 'first cut',
 
       'cta.eyebrow': '07 — Let\'s work',
@@ -100,7 +100,7 @@
       'form.error.net': 'Network error. Please email gsacreatives@gmail.com directly.',
       'form.error.generic': 'Something went wrong. Please email gsacreatives@gmail.com directly.',
 
-      'footer.text': 'GSA Creatives — Video Ads Studio.',
+      'footer.text': 'LifeSchédio — Video Ads Studio.',
       'fab.aria': 'Hire me — jump to the contact section',
 
       'count.paged': 'Showing <b>5</b> of {n} projects — swipe or use the arrows to see more.',
@@ -182,12 +182,12 @@
       'r1': 'Directrice création · Aurora Apparel', 'r2': 'CEO · Northwave', 'r3': 'Fondateur · Double Root Coffee', 'r4': 'Head of Growth · Pulse',
 
       'about.eyebrow': '06 — Qui sommes-nous',
-      'about.title': 'Nous sommes <span class="about__name">GSA Creatives.</span>',
-      'about.p1': 'GSA Creatives est un studio de publicités vidéo construit pour une seule chose : <strong>transformer les scrolleurs en acheteurs</strong>. Nous concevons des créations TikTok, Meta &amp; YouTube Shorts comme des funnels — accroche dans les 3 premières secondes, rythme qui retient, CTA qui conclut.',
+      'about.title': 'Nous sommes <span class="about__name">LifeSchédio.</span>',
+      'about.p1': 'LifeSchédio est un studio de publicités vidéo construit pour une seule chose : <strong>transformer les scrolleurs en acheteurs</strong>. Nous concevons des créations TikTok, Meta &amp; YouTube Shorts comme des funnels — accroche dans les 3 premières secondes, rythme qui retient, CTA qui conclut.',
       'about.p2': 'Derrière chaque cut, un système de direct response : psychologie du consommateur, tests d\'accroches systématiques et lectures de Hook Rate, Hold Rate, CTR et ROAS. Premier cut livré en <strong>24–48 h</strong>, puis itérations jusqu\'à ce que l\'ad gagne.',
       'about.p3': 'De l\'e-commerce et du lifestyle au SaaS et au spot TV, notre travail tourne en <strong>flux 9:16</strong> comme sur <strong>grand écran</strong>, entre l\'Afrique, l\'Europe et l\'Amérique du Nord. Chaque client repart avec quelque chose à montrer — et des chiffres à l\'appui.',
       'about.li1': 'Publicités vidéo social media', 'about.li2': 'Démos SaaS &amp; Apps', 'about.li3': 'UGC &amp; Direct Response', 'about.li4': 'Motion Design &amp; Sous-titres',
-      'about.card.name': 'GSA Creatives', 'about.card.tag': 'Des vidéos pensées pour convertir',
+      'about.card.name': 'LifeSchédio', 'about.card.tag': 'Des vidéos pensées pour convertir',
       'about.stat1v': '180+', 'about.stat1l': 'ads livrées', 'about.stat2v': '4,3×', 'about.stat2l': 'ROAS moyen', 'about.stat3v': '24–48 h', 'about.stat3l': 'premier cut',
 
       'cta.eyebrow': '07 — Travaillons ensemble',
@@ -209,7 +209,7 @@
       'form.error.net': 'Erreur réseau. Écrivez-moi directement à gsacreatives@gmail.com.',
       'form.error.generic': 'Une erreur est survenue. Écrivez-moi directement à gsacreatives@gmail.com.',
 
-      'footer.text': 'GSA Creatives — Studio de publicités vidéo.',
+      'footer.text': 'LifeSchédio — Studio de publicités vidéo.',
       'fab.aria': 'Me recruter — aller à la section contact',
 
       'count.paged': 'Affichage de <b>5</b> projets sur {n} — glissez ou utilisez les flèches pour voir plus.',
@@ -291,12 +291,12 @@
       'r1': 'Directora creativa · Aurora Apparel', 'r2': 'CEO · Northwave', 'r3': 'Fundador · Double Root Coffee', 'r4': 'Head of Growth · Pulse',
 
       'about.eyebrow': '06 — Quiénes somos',
-      'about.title': 'Somos <span class="about__name">GSA Creatives.</span>',
-      'about.p1': 'GSA Creatives es un estudio de anuncios de vídeo construido para una sola cosa: <strong>convertir espectadores en compradores</strong>. Diseñamos creatividades para TikTok, Meta y YouTube Shorts como embudos — gancho en los primeros 3 segundos, ritmo que retiene y CTA que cierra.',
+      'about.title': 'Somos <span class="about__name">LifeSchédio.</span>',
+      'about.p1': 'LifeSchédio es un estudio de anuncios de vídeo construido para una sola cosa: <strong>convertir espectadores en compradores</strong>. Diseñamos creatividades para TikTok, Meta y YouTube Shorts como embudos — gancho en los primeros 3 segundos, ritmo que retiene y CTA que cierra.',
       'about.p2': 'Detrás de cada corte hay un sistema de direct response: psicología del consumidor, pruebas sistemáticas de ganchos y lecturas de Hook Rate, Hold Rate, CTR y ROAS. Primer corte en <strong>24–48 h</strong> y luego iteramos hasta que el anuncio gana.',
       'about.p3': 'Del e-commerce y el lifestyle al SaaS y el spot de TV, nuestro trabajo corre en <strong>feed 9:16</strong> y en <strong>gran pantalla</strong>, entre África, Europa y Norteamérica. Cada cliente se va con algo que enseñar — y cifras que lo respaldan.',
       'about.li1': 'Anuncios de vídeo para redes', 'about.li2': 'Demos SaaS y de apps', 'about.li3': 'UGC y Direct Response', 'about.li4': 'Motion graphics y subtítulos',
-      'about.card.name': 'GSA Creatives', 'about.card.tag': 'Vídeos diseñados para convertir',
+      'about.card.name': 'LifeSchédio', 'about.card.tag': 'Vídeos diseñados para convertir',
       'about.stat1v': '180+', 'about.stat1l': 'anuncios entregados', 'about.stat2v': '4,3×', 'about.stat2l': 'ROAS medio', 'about.stat3v': '24–48 h', 'about.stat3l': 'primer corte',
 
       'cta.eyebrow': '07 — Trabajemos',
@@ -318,7 +318,7 @@
       'form.error.net': 'Error de red. Escríbeme directamente a gsacreatives@gmail.com.',
       'form.error.generic': 'Algo salió mal. Escríbeme directamente a gsacreatives@gmail.com.',
 
-      'footer.text': 'GSA Creatives — Estudio de anuncios de vídeo.',
+      'footer.text': 'LifeSchédio — Estudio de anuncios de vídeo.',
       'fab.aria': 'Contrátame — ir a la sección de contacto',
 
       'count.paged': 'Mostrando <b>5</b> de {n} proyectos — desliza o usa las flechas para ver más.',
@@ -400,12 +400,12 @@
       'r1': 'مديرة الإبداع · Aurora Apparel', 'r2': 'الرئيس التنفيذي · Northwave', 'r3': 'المؤسس · Double Root Coffee', 'r4': 'رئيس النمو · Pulse',
 
       'about.eyebrow': '06 — من نحن',
-      'about.title': 'نحن <span class="about__name">GSA Creatives.</span>',
-      'about.p1': 'GSA Creatives استوديو إعلانات فيديو بُني لغاية واحدة: <strong>تحويل الممرّرين إلى مشترين</strong>. نصمّم إبداعات TikTok وMeta وYouTube Shorts كالقمع — خطّاف في أول 3 ثوانٍ، وإيقاع يشدّ الانتباه، وCTA يُغلق البيع.',
+      'about.title': 'نحن <span class="about__name">LifeSchédio.</span>',
+      'about.p1': 'LifeSchédio استوديو إعلانات فيديو بُني لغاية واحدة: <strong>تحويل الممرّرين إلى مشترين</strong>. نصمّم إبداعات TikTok وMeta وYouTube Shorts كالقمع — خطّاف في أول 3 ثوانٍ، وإيقاع يشدّ الانتباه، وCTA يُغلق البيع.',
       'about.p2': 'خلف كل قصّة نظام استجابة مباشرة: سيكولوجية المستهلك، واختبار منهجي للخطّافات، وقراءات لـ Hook Rate وHold Rate وCTR وROAS. نسلّم أول نسخة خلال <strong>24–48 ساعة</strong> ثم نكرّر حتى يربح الإعلان.',
       'about.p3': 'من التجارة الإلكترونية ولايف ستايل إلى عروض SaaS وإعلانات التلفاز، أعمالنا تعمل في <strong>فيديوهات 9:16</strong> وعلى <strong>الشاشات الكبيرة</strong> بين أفريقيا وأوروبا وأمريكا الشمالية. كل عميل يغادر بشيء يُعرضه — وأرقام تؤيّده.',
       'about.li1': 'إعلانات الفيديو للسوشيال', 'about.li2': 'عروض SaaS والتطبيقات', 'about.li3': 'UGC والاستجابة المباشرة', 'about.li4': 'موشن جرافيك وترجمة',
-      'about.card.name': 'GSA Creatives', 'about.card.tag': 'فيديوهات مصمّمة للتحويل',
+      'about.card.name': 'LifeSchédio', 'about.card.tag': 'فيديوهات مصمّمة للتحويل',
       'about.stat1v': '+180', 'about.stat1l': 'إعلان منجز', 'about.stat2v': '4.3×', 'about.stat2l': 'متوسط ROAS', 'about.stat3v': '24–48', 'about.stat3l': 'ساعة لأول نسخة',
 
       'cta.eyebrow': '07 — لنعمل معاً',
@@ -427,7 +427,7 @@
       'form.error.net': 'خطأ في الشبكة. راسلني مباشرة على gsacreatives@gmail.com.',
       'form.error.generic': 'حدث خطأ ما. راسلني مباشرة على gsacreatives@gmail.com.',
 
-      'footer.text': 'GSA Creatives — استوديو إعلانات الفيديو.',
+      'footer.text': 'LifeSchédio — استوديو إعلانات الفيديو.',
       'fab.aria': 'وظّفني — الانتقال إلى قسم التواصل',
 
       'count.paged': 'عرض <b>5</b> من {n} مشاريع — اسحب أو استخدم الأسهم لرؤية المزيد.',

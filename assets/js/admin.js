@@ -1,9 +1,9 @@
 /* =========================================================
-   GSA CREATIVES — Admin dashboard
+   LIFESCHÉDIO — Admin dashboard
    Reads 'gsa_analytics_v1' written by tracker.js.
-   No password gate: a static host has no real auth, so this
-   page is simply not linked from the public site. Keep the
-   URL private.
+   The page is locked by an email-code gate: this script only
+   renders once admin-auth.js has dispatched 'ls:admin-unlock'
+   (immediate when #dash is already visible, e.g. local dev).
    ========================================================= */
 (function () {
   'use strict';
@@ -184,5 +184,12 @@
     render();
   });
 
-  render();
+  function boot() { render(); }
+  if (window.LS_ADMIN_UNLOCKED || (dashVisible())) boot();
+  else window.addEventListener('ls:admin-unlock', boot, { once: true });
+
+  function dashVisible() {
+    var dash = document.getElementById('dash');
+    return !!(dash && !dash.hidden);
+  }
 })();
