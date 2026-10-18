@@ -11,11 +11,13 @@
  *                  GitHub (API Contents). Le navigateur ne détient
  *                  AUCUN secret : le token GitHub vit dans les
  *                  Script Properties (chiffrées côté Google).
- *                  Si le payload contient receipt:true, le relais ne
- *                  renvoie pas du JSON (illisible cross-origin à cause
- *                  du CORS) mais une page HTML qui postMessage le
- *                  résultat à la console (gsaRelayPost côté client) :
- *                  la publication affiche alors le VRAI résultat.
+ *                  Le résultat est aussi stocké 5 min dans le cache
+ *                  sous la clé rcpt_<rid> quand le payload porte un rid :
+ *                  le client (gsaRelayPost) le récupère en JSONP via
+ *                  doGet(type=_receipt) — c'est le seul canal de lecture
+ *                  cross-origin fiable (fetch illisible : pas de CORS ;
+ *                  iframe interdite : frame-ancestors 'self'). La
+ *                  publication affiche alors le VRAI résultat.
  *  4) admin      → verrou de la page console : admin_code envoie un
  *                  code à 6 chiffres par e-mail (10 min, 5 essais,
  *                  60 s de cooldown), admin_login échange le code
@@ -66,8 +68,15 @@ function doPost(e) {
     else if (p.type === 'analytics' && p.session) result = handleAnalytics(p.session);
     else result = handleBrief(p);
 
-    // reçu demandé (gsaRelayPost) → page HTML qui postMessage le résultat
-    if (p.receipt) return gsaReceiptPage(result, p.rid);
+    // Reçu : le résultat est stocké quelques minutes dans le cache ; le
+    // client le récupère en JSONP via doGet(type=_receipt). Une page HTML
+    // postMessage est impossible : Apps Script interdit le cadrage
+    // cross-origin (frame-ancestors 'self' sur la redirection /exec).
+    if (p.rid) {
+      try {
+        CacheService.getScriptCache().put('rcpt_' + p.rid, JSON.stringify(result), 300);
+      } catch (err) { }
+    }
     return gsaJson(result);
   } catch (err) {
     return gsaJson({ ok: false, error: String(err) });
@@ -339,27 +348,33 @@ function handleCmsPush(p) {
   };
 }
 
+/* ---------------- Reçu JSONP (lecture du résultat cross-origin) ----------------
+   fetch() ne peut pas lire une réponse Apps Script (pas d'en-tête CORS) et
+   une page de reçu ne peut pas être cadrée dans un iframe caché
+   (frame-ancestors 'self' sur la redirection /exec). Un <script src>
+   classique (JSONP) contourne les deux : gsaRelayPost envoie en POST
+   no-cors avec un rid unique, puis interroge ce endpoint en GET toutes
+   les 2 s jusqu'à ce que doPost ait stocké le résultat (rcpt_<rid>, 5 min). */
+function doGet(e) {
+  var p = (e && e.parameter) || {};
+  if (p.type === '_receipt') {
+    var raw = null, result = null;
+    try {
+      raw = CacheService.getScriptCache().get('rcpt_' + String(p.rid || ''));
+      if (raw) result = JSON.parse(raw);
+    } catch (err) { }
+    var json = JSON.stringify(result).replace(/</g, '\\u003c');
+    var js = 'window.gsaRelayReceipt && window.gsaRelayReceipt(' +
+      JSON.stringify(String(p.rid || '')) + ',' + json + ');';
+    return ContentService.createTextOutput(js)
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService.createTextOutput('Relais LifeSchédio : utilisez POST.')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
 function gsaJson(o) {
   return ContentService
     .createTextOutput(JSON.stringify(o))
     .setMimeType(ContentService.MimeType.JSON);
-}
-
-/* Reçu de publication (publication CMS avec receipt:true) : petite page
-   HTML chargée dans l'iframe caché de gsaRelayPost. Le seul travail de
-   cette page est de postMessage le résultat à la console admin — le
-   postMessage est autorisé cross-origin, contraire à la lecture d'une
-   réponse fetch. Le '<' du JSON est échappé pour qu'un message GitHub
-   ne puisse pas fermer la balise <script>. Aucun secret dans ce reçu :
-   seulement {ok, error?, detail?}. */
-function gsaReceiptPage(o, rid) {
-  var json = JSON.stringify(o).replace(/</g, '\\u003c');
-  var idJson = JSON.stringify(rid == null ? null : String(rid)).replace(/</g, '\\u003c');
-  var html =
-    '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' +
-    '<script>window.parent.postMessage({gsa:"gsa-relay-receipt",rid:' + idJson +
-    ',result:' + json + '},"*");</scr' + 'ipt>' +
-    '</body></html>';
-  return ContentService.createTextOutput(html)
-    .setMimeType(ContentService.MimeType.HTML);
 }

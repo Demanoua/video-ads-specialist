@@ -61,61 +61,75 @@ window.gsaSendMail = function (msg, remote, keepalive) {
   return fetch(window.GSA_RELAY_ENDPOINT, opts);
 };
 
-/* CMS publish transport — REAL result via hidden iframe + postMessage.
-   Apps Script sends no CORS headers, so fetch() cannot read the response
-   (gsaSendMail above is therefore fire-and-forget in production). A plain
-   form POST needs no CORS: the relay answers with a tiny HTML page that
-   postMessages the result back. Used by admin-cms.js "Publish to site" so
-   a wrong key or a GitHub rejection is shown instead of a fake success.
+/* CMS publish/admin transport — REAL result via no-cors POST + JSONP receipt.
+   Two hard limits make a direct read impossible: Apps Script sends no CORS
+   header (fetch can't read the response) AND its /exec POST answer is a 302
+   carrying "X-Frame-Options: SAMEORIGIN" + "frame-ancestors 'self'" (a receipt
+   page can never render in a hidden iframe — verified empirically). What
+   always works cross-origin: a fire-and-forget fetch to SEND, and a JSONP
+   <script src> GET to READ. So gsaRelayPost POSTs the payload with a unique
+   rid, then polls the relay's doGet(type=_receipt&rid=…) every 2 s until the
+   result appears in the relay cache (written by doPost before answering).
 
-   payload : must contain receipt:true (the relay then answers with the
-             receipt page instead of JSON) and is sent as the single form
-             field "payload".
+   payload : any object; a unique rid is attached automatically.
    Returns a Promise resolving with the relay's result object
-   ({ok:true} | {ok:false,error,detail?}) and rejecting on timeout
-   (relay unreachable / network down). A unique rid per call prevents a
-   receipt from one publish from resolving another. */
+   ({ok:true} | {ok:false,error,detail?}) and rejecting after timeoutMs
+   (default 30 s) = relay unreachable / network down. */
 window.gsaRelayPost = function (payload, timeoutMs) {
   return new Promise(function (resolve, reject) {
     var endpoint = window.GSA_RELAY_ENDPOINT;
     if (!endpoint) { reject(new Error('relay_not_configured')); return; }
+    if (!window.gsaRelayPending) window.gsaRelayPending = {};
+    var pending = window.gsaRelayPending;
     var rid = 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-    var iframe = document.createElement('iframe');
-    iframe.name = rid; // form target
-    iframe.style.display = 'none';
-    var form = document.createElement('form');
-    form.method = 'POST';
-    form.action = endpoint;
-    form.target = rid;
-    form.style.display = 'none';
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'payload';
-    payload.rid = rid; // echoed back inside the receipt, for matching
-    input.value = JSON.stringify(payload);
-    form.appendChild(input);
+    var deadline = Date.now() + (timeoutMs || 30000);
+    var pollTimer = null;
+    var lastScript = null;
+
     function cleanup() {
-      window.removeEventListener('message', onMessage);
-      clearTimeout(timer);
-      if (form.parentNode) form.parentNode.removeChild(form);
-      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+      clearTimeout(pollTimer);
+      delete pending[rid];
+      if (lastScript && lastScript.parentNode) lastScript.parentNode.removeChild(lastScript);
     }
-    function onMessage(e) {
-      var d = e && e.data;
-      if (!d || d.gsa !== 'gsa-relay-receipt' || d.rid !== rid) return;
-      var origin = String(e.origin || '');
-      if (origin.indexOf('googleusercontent.com') === -1 &&
-          origin.indexOf('script.google.com') === -1) return;
-      cleanup();
-      resolve(d.result);
+    /* Global JSONP callback, shared by concurrent calls and filtered by rid.
+       A null result means "not stored yet": polling keeps going. */
+    window.gsaRelayReceipt = function (gotRid, result) {
+      var entry = pending[gotRid];
+      if (!entry) return;
+      if (result) { entry.cleanup(); entry.resolve(result); }
+    };
+
+    pending[rid] = { resolve: resolve, reject: reject, cleanup: cleanup };
+
+    // 1) send — fire-and-forget: the response is unreadable cross-origin anyway
+    try {
+      payload.rid = rid; // relay keys its cached result on this
+      fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      }).catch(function () { });
+    } catch (e) { }
+
+    // 2) JSONP receipt poll every 2 s until the overall deadline
+    function poll() {
+      if (Date.now() > deadline) {
+        var entry = pending[rid];
+        if (entry) { entry.cleanup(); entry.reject(new Error('relay_timeout')); }
+        return;
+      }
+      if (lastScript && lastScript.parentNode) lastScript.parentNode.removeChild(lastScript);
+      var s = document.createElement('script');
+      s.src = endpoint +
+        (endpoint.indexOf('?') === -1 ? '?' : '&') +
+        'type=_receipt&rid=' + encodeURIComponent(rid) +
+        '&_=' + Date.now(); // cache-buster
+      s.onerror = function () { }; // transient failure: retried next cycle
+      lastScript = s;
+      document.body.appendChild(s);
+      pollTimer = setTimeout(poll, 2000);
     }
-    var timer = setTimeout(function () {
-      cleanup();
-      reject(new Error('relay_timeout'));
-    }, timeoutMs || 30000);
-    window.addEventListener('message', onMessage);
-    document.body.appendChild(iframe);
-    document.body.appendChild(form);
-    form.submit();
+    poll();
   });
 };
