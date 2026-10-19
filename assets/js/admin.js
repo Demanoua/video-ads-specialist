@@ -124,6 +124,8 @@
       ['Timezone', v.tz || '—'],
       ['IP', v.ip || '—'],
       ['Location', v.geo || '—'],
+      ['Connection', v.conn ? [(v.conn.type || v.conn.effectiveType || '—'), (v.conn.downlink != null ? '~' + v.conn.downlink + ' Mbps' : null), (v.conn.saveData ? 'saveData' : null)].filter(Boolean).join(' · ') : '—'],
+      ['Carrier / ISP', v.org || '—'],
       ['Referrer', v.referrer || 'direct'],
       ['Landing hash', v.landing || '—'],
       ['User-Agent', v.userAgent || '—']

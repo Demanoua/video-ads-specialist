@@ -59,6 +59,21 @@
     landing: window.location.hash || '(none)',
     ip: null,
     geo: null,
+    // Réseau : le navigateur ne dit presque jamais wifi vs mobile ; on
+    // prend ce qui existe (type parfois exposé sous Chrome Android,
+    // effectiveType = heuristique 2g-4g) + l'opérateur/FAI via l'IP.
+    conn: safe(function () {
+      var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!c) return null;
+      return {
+        type: c.type || null,
+        effectiveType: c.effectiveType || null,
+        downlink: (typeof c.downlink === 'number') ? c.downlink : null,
+        rtt: (typeof c.rtt === 'number') ? c.rtt : null,
+        saveData: !!c.saveData
+      };
+    }),
+    org: null, // opérateur/FAI (ipapi.co)
     events: [],
     videoWatch: {},
     uploaded: false
@@ -88,6 +103,7 @@
       .then(function (j) {
         session.ip = j.ip || null;
         session.geo = [j.city, j.region, j.country_name].filter(Boolean).join(', ') || null;
+        session.org = j.org || null; // opérateur mobile / FAI
         persist();
       })
       .catch(function () { })
@@ -146,7 +162,37 @@
     }).observe(contactModal, { attributes: true, attributeFilter: ['class'] });
   }
   var cForm = document.getElementById('contactForm');
-  if (cForm) cForm.addEventListener('submit', function () { logEvent('contact_submit', {}); });
+  if (cForm) cForm.addEventListener('submit', function () {
+    session.formSubmitted = true;
+    delete session.contactDraft;
+    delete session.contactDraftAt;
+    persist();
+    logEvent('contact_submit', {});
+  });
+
+  /* ---- Abandoned contact draft: typed but never sent → emailed on leave ---- */
+  var CFORM_FIELDS = { name: 'cf-name', email: 'cf-email', subject: 'cf-subject', budget: 'cf-budget', message: 'cf-message' };
+  function captureDraft() {
+    if (session.formSubmitted) return;
+    var draft = {}, k, el, v;
+    for (k in CFORM_FIELDS) {
+      el = document.getElementById(CFORM_FIELDS[k]);
+      v = el && el.value ? String(el.value).trim() : '';
+      if (v) draft[k] = el.value;
+    }
+    var keys = Object.keys(draft);
+    if (keys.length) {
+      var first = !session.contactDraft;
+      session.contactDraft = draft;
+      session.contactDraftAt = new Date().toISOString();
+      if (first) logEvent('contact_draft_started', { fields: keys });
+      persist();
+    }
+  }
+  if (cForm) {
+    cForm.addEventListener('input', captureDraft);
+    cForm.addEventListener('change', captureDraft);
+  }
 
   /* ---- Share bar (selection mode) ---- */
   var sharebar = document.getElementById('sharebar');

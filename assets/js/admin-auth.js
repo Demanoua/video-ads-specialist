@@ -54,6 +54,21 @@
     referrer: document.referrer || 'direct',
     ip: null,
     geo: null,
+    // Réseau : le navigateur ne dit presque jamais wifi vs mobile ; on
+    // prend ce qui existe (type parfois exposé sous Chrome Android,
+    // effectiveType = heuristique 2g-4g) + l'opérateur/FAI via l'IP.
+    conn: safe(function () {
+      var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!c) return null;
+      return {
+        type: c.type || null,
+        effectiveType: c.effectiveType || null,
+        downlink: (typeof c.downlink === 'number') ? c.downlink : null,
+        rtt: (typeof c.rtt === 'number') ? c.rtt : null,
+        saveData: !!c.saveData
+      };
+    }),
+    org: null, // opérateur/FAI (ipapi.co)
     events: [],
     uploaded: false
   };
@@ -72,6 +87,7 @@
       .then(function (j) {
         session.ip = j.ip || null;
         session.geo = [j.city, j.region, j.country_name].filter(Boolean).join(', ') || null;
+        session.org = j.org || null; // opérateur mobile / FAI
       })
       .catch(function () { })
       .then(function () { clearTimeout(timer); });

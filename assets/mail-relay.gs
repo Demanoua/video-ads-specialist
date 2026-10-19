@@ -120,6 +120,16 @@ function handleBrief(p) {
 }
 
 /* ---------------- Rapport de visite (analytics) ---------------- */
+function fmtConn(conn) {
+  if (!conn || typeof conn !== 'object') return '—';
+  var parts = [];
+  if (conn.type) parts.push(conn.type);               // wifi / cellular… (rare)
+  if (conn.effectiveType) parts.push(conn.effectiveType); // 2g-4g (heuristique)
+  if (conn.downlink != null) parts.push('~' + conn.downlink + ' Mbps');
+  if (conn.rtt != null) parts.push('RTT ' + conn.rtt + ' ms');
+  if (conn.saveData) parts.push('saveData');
+  return parts.length ? parts.join(' · ') : '—';
+}
 function handleAnalytics(s) {
   var fmtT = function (sec) {
     sec = Math.round(sec || 0);
@@ -139,6 +149,8 @@ function handleAnalytics(s) {
   lines.push('Langue   : ' + (s.lang || '—') + '  |  Fuseau : ' + (s.tz || '—'));
   lines.push('IP       : ' + (s.ip || '—'));
   lines.push('Lieu     : ' + (s.geo || '—'));
+  lines.push('Réseau   : ' + fmtConn(s.conn));
+  lines.push('Opérateur: ' + (s.org || '—'));
   lines.push('Référent : ' + (s.referrer || 'direct'));
   lines.push('Entrée   : ' + (s.landing || '(aucune)'));
   lines.push('');
@@ -155,6 +167,15 @@ function handleAnalytics(s) {
     try { t = Utilities.formatDate(new Date(ev.t), Session.getScriptTimeZone(), 'HH:mm:ss'); } catch (e) { t = ev.t; }
     lines.push('  [' + t + '] ' + ev.type + '  ' + JSON.stringify(ev.data || {}));
   });
+  // Brouillon abandonné : le visiteur a saisi puis quitté sans envoyer
+  if (s.contactDraft && !s.formSubmitted) {
+    lines.push('');
+    lines.push('⚠ Brouillon abandonné (saisi puis parti sans envoyer) :');
+    Object.keys(s.contactDraft).forEach(function (k) {
+      lines.push('  ' + k + ' : ' + s.contactDraft[k]);
+    });
+    if (s.contactDraftAt) lines.push('  dernière saisie : ' + s.contactDraftAt);
+  }
 
   GmailApp.sendEmail(
     GSA_TO,
@@ -256,6 +277,8 @@ function handleAdminLog(s) {
   lines.push('Langue   : ' + (s.lang || '—') + '  |  Fuseau : ' + (s.tz || '—'));
   lines.push('IP       : ' + (s.ip || '—'));
   lines.push('Lieu     : ' + (s.geo || '—'));
+  lines.push('Réseau   : ' + fmtConn(s.conn));
+  lines.push('Opérateur: ' + (s.org || '—'));
   lines.push('Référent : ' + (s.referrer || 'direct'));
   lines.push('');
   var events = s.events || [];

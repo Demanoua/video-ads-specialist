@@ -742,6 +742,7 @@ h1, h2, h3, h4 {
   font-size: clamp(3.6rem, 9vw, 5.4rem); letter-spacing: -0.03em; line-height: 1;
   color: transparent; -webkit-text-stroke: 1.5px var(--brand);
 }
+.about__card-mark img { display: block; border-radius: 18px; }
 .about__card-name { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.01em; }
 .about__card-tag { color: var(--text-2); font-size: 0.88rem; }
 .about__card-stats {
